@@ -44,7 +44,7 @@ nav ul li a{
 }
 
 a.nav_active, a:hover{
-    background:  linear-gradient(135deg, #fc6076 10%, #ff9a44 100%);
+    background:  linear-gradient(135deg, #f1233e 10%, #e67614 100%);
     color: white;
     transition: .5s;
 }
@@ -83,7 +83,7 @@ a.nav_active, a:hover{
         width: 100%;
         height: 100vh;
         top: 80px;
-        background:  linear-gradient(135deg, #fc6076 10%, #ff9a44 100%);
+        background:  linear-gradient(135deg, #f1233e 10%, #e67614 100%);
         left: -100%;
         text-align: center;
         transition: all .5s;
