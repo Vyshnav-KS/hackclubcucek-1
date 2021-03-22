@@ -10,11 +10,11 @@ const Navbar = () => {
         </label>
         <label className="nav_logo"><img className="nav_logo" src="" alt="Image"/></label>
         <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="">Blog</a></li>
-            <li><a href="">Services</a></li>
-            <li><a href="">Contact</a></li>
-            <li><a href="" className="nav_active">Join Now</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/services">Services</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
+            <li><Link to="/join" className="nav_active">Join</Link></li>
         </ul>
         </div>
     </nav>
@@ -22,3 +22,9 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+                
+                
+                
+                
