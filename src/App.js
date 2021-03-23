@@ -1,4 +1,5 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'; 
+import Footer from './Footer';
 import Home from './Home';
 import './index.css';
 import Join from './Join';
@@ -27,6 +28,7 @@ function App() {
                         </Route>
                     </Switch>
                 </div>
+                <Footer></Footer>
             </div>
         </Router>
     );
