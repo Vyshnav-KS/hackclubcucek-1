@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import hackclub_logo from './images/hackclub.png';
 
 const Navbar = () => {
     return (
@@ -8,7 +9,7 @@ const Navbar = () => {
         <label for="check" className="checkbtn">
             <i className="fas fa-bars"></i>
         </label>
-        <label className="nav_logo"><img className="nav_logo" src="" alt="Image"/></label>
+        <label className="nav_logo"><img className="nav_logo" src={hackclub_logo} alt="Hack club logo"/></label>
         <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
