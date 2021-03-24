@@ -12,13 +12,13 @@ badd +13 Navbar.js
 badd +1 index.css
 badd +20 Home.js
 badd +8 Join.js
-badd +17 join/Login.js
-badd +19 join/Signup.js
+badd +68 join/Login.js
+badd +57 join/Signup.js
 badd +14 Footer.js
-badd +38 useFetch.js
+badd +22 useFetch.js
 argglobal
 %argdel
-edit join/Login.js
+edit join/Signup.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -28,12 +28,12 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-let s:l = 36 - ((28 * winheight(0) + 22) / 45)
+let s:l = 57 - ((41 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 08|
+57
+normal! 035|
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

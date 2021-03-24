@@ -5,18 +5,16 @@ const Login = () => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState("");
     const [isSubmitPressed, setIsSubmitPressed] = useState(false);
-    const [obj, setObj] = useState({user_name: "", pass: ""});
-    const [uri, setUri] = useState("");
+    const [target, setTarget] = useState({uri: "", data:{}});
     
     // This variable is used to show status when submit button is pressed.
     let statusJsx = "";
 
-    const {data, isLoading, error} = useFetch(uri, obj);
+    const {data, isLoading, error} = useFetch(target);
 
     const HandleSubmit = () => {
         setIsSubmitPressed(true);
-        setUri("haha");
-        setObj({user_name: userName, pass: password});
+        setTarget({uri: "http://cuceksite.com/login.php", data: {name: userName, pass: password}});
         console.log("button pressed");
     }
 
@@ -39,6 +37,20 @@ const Login = () => {
                         <p>{error.msg}</p>
                     </div> 
                 )
+            }
+            // Check respose from the server
+            else if (data) {
+                if (!data.result) {
+                    // Show error
+                    statusJsx = (
+                        <div className="errorMsg">
+                            <h2>Error</h2>
+                            <p>{data.err}</p>
+                        </div> 
+                    )
+                } else {
+                    // All ok
+                }
             } else {
                 statusJsx = "";
             }
@@ -54,8 +66,8 @@ const Login = () => {
                 <label>Password</label>
                 <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 <button onClick={HandleSubmit}>Submit</button>
-                {statusJsx}
             </div>
+            {statusJsx}
         </div>
     );
 }

@@ -1,16 +1,16 @@
 import {useState, useEffect} from 'react';
 
-const useFetch = (url, out_data) => {
+const useFetch = (target) => {
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState({error: false, msg: ""});
 
     useEffect(() =>{
         const abortCont = new AbortController();
-        fetch(url, {
+        fetch(target.uri, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(out_data),
+                body: JSON.stringify(target.data),
                 signal: abortCont.signal
             })
             .then(res => {
@@ -35,7 +35,7 @@ const useFetch = (url, out_data) => {
                 }
             });
         return () => abortCont.abort();
-    }, [url, out_data]);
+    }, [target]);
     return {data, isLoading, error};
 }
 
