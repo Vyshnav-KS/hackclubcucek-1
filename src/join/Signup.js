@@ -22,6 +22,7 @@ const Signup = () => {
         console.log("button pressed");
     }
 
+
     // Execute after submit press
     if (isSubmitPressed) {
         // waiting for response 

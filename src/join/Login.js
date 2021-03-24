@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 
 const Login = () => {
@@ -6,6 +7,8 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [isSubmitPressed, setIsSubmitPressed] = useState(false);
     const [target, setTarget] = useState({uri: "", data:{}});
+
+    const history = useHistory();
     
     // This variable is used to show status when submit button is pressed.
     let statusJsx = "";
@@ -16,6 +19,13 @@ const Login = () => {
         setIsSubmitPressed(true);
         setTarget({uri: "http://cuceksite.com/login.php", data: {name: userName, pass: password}});
         console.log("button pressed");
+    }
+
+    const onSuccess = () => {
+        // Set cookies
+        document.cookie = `username=${userName}; path=/`;
+        document.cookie = `password=${password}; path=/`;
+        history.push("/");
     }
 
     // Execute after submit press
@@ -50,6 +60,7 @@ const Login = () => {
                     )
                 } else {
                     // All ok
+                    onSuccess();
                 }
             } else {
                 statusJsx = "";
