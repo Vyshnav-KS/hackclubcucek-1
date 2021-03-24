@@ -29,9 +29,10 @@ const useFetch = (target) => {
             .catch(err => {
                 if (err.name === 'AbortError') {
                     console.log("Aborting.....");
-                } else {
-                    setLoading(false);
                     setError({error: true, msg: err.message});
+                } else {
+                    setError({error: true, msg: err.message});
+                    setLoading(false);
                 }
             });
         return () => abortCont.abort();

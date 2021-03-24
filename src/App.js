@@ -1,4 +1,6 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'; 
+import Blog from './Blog';
+import CreateBlog from './blog/CreateBlog';
 import Footer from './Footer';
 import Home from './Home';
 import './index.css';
@@ -25,6 +27,12 @@ function App() {
                         </Route>
                         <Route exact path="/join/signup">
                             <Signup></Signup>
+                        </Route>
+                        <Route exact path="/blog">
+                            <Blog></Blog>
+                        </Route>
+                        <Route exact path="/blog/create">
+                            <CreateBlog></CreateBlog>
                         </Route>
                     </Switch>
                 </div>

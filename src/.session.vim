@@ -8,17 +8,19 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +31 App.js
-badd +13 Navbar.js
+badd +12 Navbar.js
 badd +1 index.css
 badd +20 Home.js
 badd +8 Join.js
-badd +68 join/Login.js
-badd +57 join/Signup.js
+badd +18 join/Login.js
+badd +21 join/Signup.js
 badd +14 Footer.js
-badd +22 useFetch.js
+badd +35 useFetch.js
+badd +31 ~/.config/nvim/UltiSnips/javascript.snippets
+badd +6 Blog.js
 argglobal
 %argdel
-edit join/Signup.js
+edit Blog.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -28,12 +30,12 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-let s:l = 57 - ((41 * winheight(0) + 22) / 45)
+let s:l = 10 - ((9 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-57
-normal! 035|
+10
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
