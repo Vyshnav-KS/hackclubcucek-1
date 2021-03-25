@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
+import {serverAddress} from '../Utility';
 
 const Signup = () => {
     const [userName, setUserName] = useState('');
@@ -18,7 +19,7 @@ const Signup = () => {
 
     const handleSubmit = () => {
         setIsSubmitPressed(true);
-        setTarget({uri: "http://cuceksite.com/register.php", data: {name: userName, pass: password}});
+        setTarget({uri: `${serverAddress}/register.php`, data: {name: userName, pass: password}});
         console.log("button pressed");
     }
 

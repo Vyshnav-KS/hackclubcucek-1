@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
+import {serverAddress} from '../Utility'
 
 const Login = () => {
     const [userName, setUserName] = useState('');
@@ -17,14 +18,14 @@ const Login = () => {
 
     const HandleSubmit = () => {
         setIsSubmitPressed(true);
-        setTarget({uri: "http://cuceksite.com/login.php", data: {name: userName, pass: password}});
+        setTarget({uri: `${serverAddress}/login.php`, data: {name: userName, pass: password}});
         console.log("button pressed");
     }
 
     const onSuccess = () => {
         // Set cookies
         document.cookie = `username=${userName}; path=/`;
-        document.cookie = `password=${password}; path=/`;
+        document.cookie = `hash=${data.hash}; path=/`;
         history.push("/");
     }
 

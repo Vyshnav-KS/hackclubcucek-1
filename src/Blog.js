@@ -1,9 +1,10 @@
 import {useState} from "react";
 import {Link} from "react-router-dom";
 import useFetch from "./useFetch";
+import {serverAddress} from './Utility';
 
 const Blog = () => {
-    const [target, setTarget] = useState({uri: '', data: ''});
+    const [target, setTarget] = useState({uri:  `${serverAddress}/blogs.php`, data: ''});
     const previewData = useFetch(target);
     
     let currentStatusJsx = '';
@@ -25,6 +26,7 @@ const Blog = () => {
             )
         }
         else if (previewData.data.result) {
+            currentStatusJsx = '';
             for (const blog in previewData.data.blogs) {
                 blogsJsx = blogsJsx + (
                     <div className="blog-card">
