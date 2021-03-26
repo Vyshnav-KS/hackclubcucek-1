@@ -31,8 +31,10 @@ const Blog = () => {
             for (const blog of previewData.data.blogs) {
                 let postJsx = (
                     <div className="blog-card" key={blog.id}>
+                    <Link to={`/blogs/${blog.id}`}>
                         <p>{blog.title}</p>
-                        <p>by {blog.author}</p>
+                        <p>Written by {blog.author}</p>
+                    </Link>
                     </div>
                 );
                 blogsJsx.push(postJsx);
