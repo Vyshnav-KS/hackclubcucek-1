@@ -6,7 +6,7 @@ const Navbar = () => {
         <nav className="navbar">
         <div className= "links">
         <input type="checkbox" id= "check"/>
-        <label for="check" className="checkbtn">
+        <label  className="checkbtn">
             <i className="fas fa-bars"></i>
         </label>
         <label className="nav_logo"><img className="nav_logo" src={hackclub_logo} alt="Hack club logo"/></label>

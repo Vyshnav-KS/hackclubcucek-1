@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress} from "../Utility.js"
+import * as Messages from "../Messages";
 
 const CreateBlog = () => {
     const [title, setTitle] = useState('');
@@ -27,30 +28,19 @@ const CreateBlog = () => {
 
     if (isSubmitPressed) {
         if (serverResponse.isLoading) {
-            // Set status to loading
-            currentStatusJsx = (
-                <div className="Loading">
-                    <p>Loading...</p>
-                </div>
-            );
-        } else {
+            // Show Loading Message
+            currentStatusJsx = Messages.Msg_Loading();
+        } 
+        else {
             if (serverResponse.error.error) {
-                // Set status and show error
-                currentStatusJsx = (
-                    <div className="errorMsg">
-                        <p>{serverResponse.error.msg}</p>
-                    </div>
-                );
-
-            } else if (!serverResponse.data.result) {
-                    // Show error
-                    currentStatusJsx = (
-                        <div className="errorMsg">
-                            <h2>Error</h2>
-                            <p>{serverResponse.data.err}</p>
-                        </div> 
-                    );
-            } else {
+                // Fetch request failed
+                currentStatusJsx = Messages.Error_showError(serverResponse.error.msg);
+            } 
+            else if (!serverResponse.data.result) {
+                // Error from server
+                currentStatusJsx = Messages.Error_showError(serverResponse.data.err);
+            } 
+            else {
                 // All ok
                 history.push("/blog");
             }

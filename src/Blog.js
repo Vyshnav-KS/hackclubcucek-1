@@ -2,38 +2,40 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import useFetch from "./useFetch";
 import {serverAddress} from './Utility';
+import * as Messages from "./Messages";
 
 const Blog = () => {
-    const [target, setTarget] = useState({uri:  `${serverAddress}/blogs.php`, data: ''});
+    const [target, setTarget] = useState({uri:  `${serverAddress}/blogs.php`, data: {sql: ""}});
     const previewData = useFetch(target);
     
     let currentStatusJsx = '';
-    let blogsJsx = '';
+    let blogsJsx = [];
+
 
     if (previewData.isLoading) {
-        currentStatusJsx = (
-            <div className="Loading">
-                <p>Loading...</p>
-            </div>
-        );
-    } else {
-        // Check error
+        // Show loading message
+        currentStatusJsx = Messages.Msg_Loading();
+    } 
+    else {
         if (previewData.error.error) {
-            currentStatusJsx = (
-                <div className="errorMsg">
-                    <p>{previewData.error.msg}</p>
-                </div>
-            )
+            // Fetch request failed
+            currentStatusJsx = Messages.Error_showError(previewData.error.msg);
         }
-        else if (previewData.data.result) {
+        else if (!previewData.data.result) {
+            // Error from server
+            currentStatusJsx = Messages.Error_showError(previewData.data.err);
+        }
+        else {
+            // all ok
             currentStatusJsx = '';
-            for (const blog in previewData.data.blogs) {
-                blogsJsx = blogsJsx + (
-                    <div className="blog-card">
+            for (const blog of previewData.data.blogs) {
+                let postJsx = (
+                    <div className="blog-card" key={blog.id}>
                         <p>{blog.title}</p>
                         <p>by {blog.author}</p>
                     </div>
                 );
+                blogsJsx.push(postJsx);
             }
         }
     } 
