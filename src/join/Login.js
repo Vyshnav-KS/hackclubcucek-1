@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 import {serverAddress} from '../Utility'
+import * as Messages from "../Messages";
 
 const Login = () => {
     const [userName, setUserName] = useState('');
@@ -12,7 +13,7 @@ const Login = () => {
     const history = useHistory();
     
     // This variable is used to show status when submit button is pressed.
-    let statusJsx = "";
+    let currentStatusJsx = "";
 
     const {data, isLoading, error} = useFetch(target);
 
@@ -23,6 +24,7 @@ const Login = () => {
     }
 
     const onSuccess = () => {
+        currentStatusJsx = "";
         // Set cookies
         document.cookie = `username=${userName}; path=/`;
         document.cookie = `hash=${data.hash}; path=/`;
@@ -33,38 +35,22 @@ const Login = () => {
     if (isSubmitPressed) {
         // waiting for response 
         if (isLoading) {
-            statusJsx = (
-                <div className="loadingMsg">
-                    <h2>Loading ...</h2>
-                    <p></p>
-                </div> 
-            )
-        } else {
+            // Show Loading Message
+            currentStatusJsx = Messages.Msg_Loading();
+        } 
+        else {
             // Got response, but resulted in error
             if (error && error.error) {
-                statusJsx = (
-                    <div className="errorMsg">
-                        <h2>Error</h2>
-                        <p>{error.msg}</p>
-                    </div> 
-                )
+                // Fetch request failed
+                currentStatusJsx = Messages.Error_showError(error.msg);
             }
-            // Check respose from the server
-            else if (data) {
-                if (!data.result) {
-                    // Show error
-                    statusJsx = (
-                        <div className="errorMsg">
-                            <h2>Error</h2>
-                            <p>{data.err}</p>
-                        </div> 
-                    )
-                } else {
-                    // All ok
-                    onSuccess();
-                }
-            } else {
-                statusJsx = "";
+            else if (!data.result) {
+                // Error from server
+                currentStatusJsx = Messages.Error_showError(data.err);
+            }
+            else {
+                // All ok
+                onSuccess();
             }
         }
     } 
@@ -79,7 +65,7 @@ const Login = () => {
                 <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 <button onClick={HandleSubmit}>Submit</button>
             </div>
-            {statusJsx}
+            {currentStatusJsx}
         </div>
     );
 }

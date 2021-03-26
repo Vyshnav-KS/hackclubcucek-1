@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 import {serverAddress} from '../Utility';
+import * as Messages from "../Messages";
 
 const Signup = () => {
     const [userName, setUserName] = useState('');
@@ -13,7 +14,7 @@ const Signup = () => {
     const history = useHistory();
 
     // This variable is used to show status when submit button is pressed.
-    let statusJsx = "";
+    let currentStatusJsx = "";
 
     const {data, isLoading, error} = useFetch(target);
 
@@ -23,43 +24,26 @@ const Signup = () => {
         console.log("button pressed");
     }
 
-
     // Execute after submit press
     if (isSubmitPressed) {
         // waiting for response 
         if (isLoading) {
-            statusJsx = (
-                <div className="loadingMsg">
-                    <h2>Loading ...</h2>
-                    <p></p>
-                </div> 
-            )
-        } else {
+            // Show Loading Message
+            currentStatusJsx = Messages.Msg_Loading();
+        } 
+        else {
             // Got response, but resulted in error
             if (error && error.error) {
-                statusJsx = (
-                    <div className="errorMsg">
-                        <h2>Error</h2>
-                        <p>{error.msg}</p>
-                    </div> 
-                )
+                // Fetch request failed
+                currentStatusJsx = Messages.Error_showError(error.msg);
             }
-            // Check respose from the server
-            else if (data) {
-                if (!data.result) {
-                    // Show error
-                    statusJsx = (
-                        <div className="errorMsg">
-                            <h2>Error</h2>
-                            <p>{data.err}</p>
-                        </div> 
-                    )
-                } else {
-                    // All ok
-                    history.push("/join/login");
-                }
-            } else {
-                statusJsx = "";
+            else if (!data.result) {
+                // Error from server
+                currentStatusJsx = Messages.Error_showError(data.err);
+            }
+            else {
+                // All ok
+                history.push("/join/login");
             }
         }
     } 
@@ -76,7 +60,7 @@ const Signup = () => {
                 <input required type="password" value={password2} onChange={(e) => setPassword2(e.target.value)}></input>
                 <button onClick={handleSubmit}>Submit</button>
             </div>
-            {statusJsx}
+            {currentStatusJsx}
         </div>
     );
 }

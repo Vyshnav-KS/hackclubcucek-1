@@ -7,20 +7,23 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +31 App.js
-badd +12 Navbar.js
+badd +13 App.js
+badd +9 Navbar.js
 badd +1 index.css
 badd +20 Home.js
 badd +8 Join.js
-badd +18 join/Login.js
-badd +21 join/Signup.js
+badd +28 join/Login.js
+badd +4 join/Signup.js
 badd +14 Footer.js
 badd +35 useFetch.js
-badd +31 ~/.config/nvim/UltiSnips/javascript.snippets
-badd +6 Blog.js
+badd +15 ~/.config/nvim/UltiSnips/javascript.snippets
+badd +25 Blog.js
+badd +41 blog/CreateBlog.js
+badd +21 Utility.js
+badd +1 Messages.js
 argglobal
 %argdel
-edit Blog.js
+edit blog/CreateBlog.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -30,11 +33,11 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-let s:l = 10 - ((9 * winheight(0) + 22) / 45)
+let s:l = 45 - ((34 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
+45
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
