@@ -1,3 +1,4 @@
 #!/bin/bash
 
-yarn build && cp -r build/* ~/program/servers/hackclub/ && firefox "cuceksite.com"
+yarn build && cp .htaccess ~/program/servers/hackclub/ && cp -r build/* ~/program/servers/hackclub/ &&
+firefox "cuceksite.com"

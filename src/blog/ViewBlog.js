@@ -2,14 +2,16 @@ import {useState} from "react";
 import {useParams} from "react-router";
 import {Error_showError, Msg_Loading} from "../Messages";
 import useFetch from "../useFetch";
+import {serverAddress} from "../Utility";
 
 const ViewBlog = () => {
     const {id} = useParams();
-    const [target, setTarget] = useState({uri: '', data: {id: id}});
+    const [target, setTarget] = useState({uri: `${serverAddress}/viewBlogPost.php`, data: {id: id}});
     const serverResponse = useFetch(target);
 
     let currentStatusJsx = "";
     let postJsx = "";
+    console.log(target.uri);
 
     if (serverResponse.isLoading) {
         currentStatusJsx = Msg_Loading();
@@ -27,7 +29,7 @@ const ViewBlog = () => {
     }
     return (
         <div className="ViewBlog">
-            <h1>ViewBlog</h1>
+            <h1>View Blog</h1>
             <div className="status">
                 {currentStatusJsx}
             </div>
