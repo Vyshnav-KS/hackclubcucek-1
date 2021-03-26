@@ -1,11 +1,27 @@
+
+import home_image from './images/bg1.png';
+
 const Home = () => {
     return (
         <div className="home">
-            <h1>Home</h1>
-            <div className="home-stmt1">
-                <h2>Welcome to Hack club Cucek</h2>
-                <p>Looking for a tech group accepted worldwide from our college?. You just got into the right place.</p>
+            <div className="row home-stmt1">
+            <div className="col-1">
+                <h2>Welcome to<br/> Hack club Cucek</h2>
+                <h3>Looking for a tech group accepted worldwide 
+                    from our college?. You just got into the right place.</h3>
+                <p>DWJHhjd wdbwabdwha</p>
+                <button type="button">Join Now</button>
             </div>
+            <div className="col-2">
+                <img src={home_image} alt="" className="bg"/>
+                <div className="color-box"></div>
+            </div>
+        </div>
+        <div className="social-links">
+            <img src="" alt="O"/>
+            <img src="" alt="O"/>
+            <img src="" alt="O"/>
+        </div>
             <div className="home-about">
                 <h1>Coding is my super power</h1>
                 <h2>What do we do here</h2>
