@@ -24,7 +24,7 @@ const ViewBlog = () => {
     }
     else {
         postJsx = (
-            <p>{serverResponse.data.post}</p>
+            <div dangerouslySetInnerHTML={{ __html: serverResponse.data.post}}/>
         )
     }
     return (
