@@ -1,4 +1,4 @@
-
+// Home component
 import home_image from './images/bg1.png';
 
 const Home = () => {

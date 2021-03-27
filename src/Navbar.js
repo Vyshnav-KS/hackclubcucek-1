@@ -1,3 +1,4 @@
+// File for Navbar component
 import {Link} from "react-router-dom";
 import hackclub_logo from './images/hackclub.png';
 
