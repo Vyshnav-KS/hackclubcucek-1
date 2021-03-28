@@ -30,6 +30,8 @@ const Signup = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+  const [bio, setBio] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [target, setTarget] = useState({uri: "", data:{}});
 
@@ -42,7 +44,12 @@ const Signup = () => {
 
   const handleSubmit = () => {
     setIsSubmitPressed(true);
-    setTarget({uri: `${serverAddress}/register.php`, data: {name: userName, pass: password}});
+    setTarget({uri: `${serverAddress}/register.php`, data: {
+      name: userName,
+      pass: password,
+      bio: bio,
+      avatar: avatar
+    }});
     console.log("button pressed");
   }
 
@@ -123,6 +130,26 @@ const Signup = () => {
           fullWidth
           type="password"
           required
+        />
+
+        {/* Bio */}
+        <TextField className={classes.field}
+          onChange={(e) => setBio(e.target.value)}
+          label="Your Bio" 
+          variant="outlined" 
+          color="secondary" 
+          multiline
+          rows={3}
+          fullWidth
+        />
+
+        {/* Preview Img avatar */}
+        <TextField className={classes.field}
+          onChange={(e) => setAvatar(e.target.value)}
+          label="Avatar Image (Link)" 
+          variant="outlined" 
+          color="secondary" 
+          fullWidth
         />
 
         {/* Submit Button */}
