@@ -7,7 +7,6 @@
 }
 
 body{
-    font-family: 'Poppins', 'sans-serif';
     font-weight: 300;
     background-color: rgb(236, 236, 236);
     
@@ -151,22 +150,6 @@ a.nav_active, a:hover{
     margin: 30px 0;
 }
 
-button{
-    width: 140px;
-    height: 45px;
-    border: 0;
-    font-family: 'Poppins','san-serif';
-    padding: 5px 5px;
-    outline: none;
-    color: #fff;
-    background: linear-gradient(135deg, #ff0c2d 10%, #fa500d 100%);;
-    border-radius: 4%;
-    cursor: pointer;
-}
-
-button:hover{
-    background: black;
-}
 
 .col-2{
     position: relative;

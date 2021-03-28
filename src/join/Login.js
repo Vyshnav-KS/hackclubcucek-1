@@ -4,75 +4,135 @@ import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 import {serverAddress} from '../Utility'
 import * as Messages from "../Messages";
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+
+const useStyles = makeStyles({
+  field: {
+    marginTop: 20,
+    marginBottom: 20,
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+
+  container: {
+    margin: 'auto',
+    width: '80%',
+    maxWidth: 600
+  }
+})
 
 const Login = () => {
-    // Username, Password
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState("");
-    // State to hold submit button press
-    const [isSubmitPressed, setIsSubmitPressed] = useState(false);
-    // Our Fetch target
-    const [target, setTarget] = useState({uri: "", data:{}});
-    // Hook for navigation, to redirect to another page
-    const history = useHistory();
-    // This variable is used to show status when submit button is pressed.
-    let currentStatusJsx = "";
-    // Fetch response
-    const {data, isLoading, error} = useFetch(target);
+  const classes = useStyles()
+  // Username, Password
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState("");
 
-    // Called when submit button is pressed
-    const HandleSubmit = () => {
-        setIsSubmitPressed(true);
-        setTarget({uri: `${serverAddress}/login.php`, data: {name: userName, pass: password}});
-        console.log("button pressed");
-    }
+  // Username, Password error
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-    // Called when Login success
-    const onSuccess = () => {
-        currentStatusJsx = "";
-        // Set cookies
-        document.cookie = `username=${userName}; path=/`;
-        document.cookie = `hash=${data.hash}; path=/`;
-        history.push("/");
-    }
+  // State to hold submit button press
+  const [isSubmitPressed, setIsSubmitPressed] = useState(false);
+  // Our Fetch target
+  const [target, setTarget] = useState({uri: "", data:{}});
 
-    // Execute after submit press
-    if (isSubmitPressed) {
-        // waiting for response 
-        if (isLoading) {
-            // Show Loading Message
-            currentStatusJsx = Messages.Msg_Loading();
-        } 
-        else {
-            // Got response, but resulted in error
-            if (error && error.error) {
-                // Fetch request failed
-                currentStatusJsx = Messages.Error_showError(error.msg);
-            }
-            else if (!data.result) {
-                // Error from server
-                currentStatusJsx = Messages.Error_showError(data.err);
-            }
-            else {
-                // All ok
-                onSuccess();
-            }
-        }
+  // Hook for navigation, to redirect to another page
+  const history = useHistory();
+  // This variable is used to show status when submit button is pressed.
+  let currentStatus = "";
+
+  // Fetch response
+  const {data, isLoading, error} = useFetch(target);
+
+  // Called when submit button is pressed
+  const handleSubmit = () => {
+    setIsSubmitPressed(true);
+    setTarget({uri: `${serverAddress}/login.php`, data: {name: userName, pass: password}});
+    console.log("button pressed");
+  }
+
+  // Called when Login success
+  const onSuccess = () => {
+    currentStatus = "";
+    // Set cookies
+    document.cookie = `username=${userName}; path=/`;
+    document.cookie = `hash=${data.hash}; path=/`;
+    history.push("/");
+  }
+
+  // Execute after submit press
+  if (isSubmitPressed) {
+    // waiting for response 
+    if (isLoading) {
+      // Show Loading Message
+      currentStatus = Messages.Msg_Loading();
     } 
+    else {
+      // Got response, but resulted in error
+      if (error && error.error) {
+        // Fetch request failed
+        currentStatus = Messages.Error_showError(error.msg);
+      }
+      else if (!data.result) {
+        // Error from server
+        currentStatus = Messages.Error_showError(data.err);
+      }
+      else {
+        // All ok
+        onSuccess();
+      }
+    }
+  } 
 
-    return (
-        <div className="login">
-            <h1>Login</h1>
-            <div className="input-box">
-                <label>Username</label>
-                <input type="text" required value={userName} onChange={(e) => setUserName(e.target.value)}/> 
-                <label>Password</label>
-                <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
-                <button onClick={HandleSubmit}>Submit</button>
-            </div>
-            {currentStatusJsx}
-        </div>
-    );
+  return (
+    <Container className={classes.container}>
+      {/* heading */}
+      <Typography variant="h2">
+        Login
+      </Typography>
+
+      {/* Username */}
+      <TextField className={classes.field}
+        onChange={(e) => setUserName(e.target.value)}
+        label="Username" 
+        variant="outlined" 
+        color="secondary" 
+        fullWidth
+        required
+        error={usernameError}
+      />
+
+
+      {/* Password */}
+      <TextField className={classes.field}
+        onChange={(e) => setPassword(e.target.value)}
+        label="Password"
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        required
+        error={passwordError}
+      />
+
+      {/* Submit Button */}
+      <Button className={classes.field}
+        type="submit" 
+        color="secondary" 
+        variant="contained"
+        onClick= {handleSubmit}
+      >
+        Submit
+      </Button>
+      <Typography variant="button" color="error" >
+        {currentStatus}
+      </Typography>
+    </Container>
+  );
 }
 
 export default Login
