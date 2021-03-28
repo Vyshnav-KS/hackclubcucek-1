@@ -11,39 +11,38 @@ import Signup from './join/Signup';
 import Navbar from './Navbar';
 
 function App() {
-    return (
-        <Router>
-            <div className="App">
-                <Navbar></Navbar>
-                <div className="content">
-                    <Switch>
-                        <Route exact path="/">
-                            <Home></Home>
-                        </Route>
-                        <Route exact path="/join">
-                            <Join></Join>
-                        </Route>
-                        <Route exact path="/join/login">
-                            <Login></Login>
-                        </Route>
-                        <Route exact path="/join/signup">
-                            <Signup></Signup>
-                        </Route>
-                        <Route exact path="/blog">
-                            <Blog></Blog>
-                        </Route>
-                        <Route exact path="/blog/create">
-                            <CreateBlog></CreateBlog>
-                        </Route>
-                        <Route exact path="/blogs/:id">
-                            <ViewBlog></ViewBlog>
-                        </Route>
-                    </Switch>
-                </div>
-                <Footer></Footer>
-            </div>
-        </Router>
-    );
+
+  return (
+    <Router>
+        <Navbar></Navbar>
+        <div className="content">
+          <Switch>
+            <Route exact path="/">
+              <Home></Home>
+            </Route>
+            <Route exact path="/join">
+              <Join></Join>
+            </Route>
+            <Route exact path="/join/login">
+              <Login></Login>
+            </Route>
+            <Route exact path="/join/signup">
+              <Signup></Signup>
+            </Route>
+            <Route exact path="/blog">
+              <Blog></Blog>
+            </Route>
+            <Route exact path="/blog/create">
+              <CreateBlog></CreateBlog>
+            </Route>
+            <Route exact path="/blogs/:id">
+              <ViewBlog></ViewBlog>
+            </Route>
+          </Switch>
+        </div>
+        <Footer></Footer>
+    </Router>
+  );
 }
 
 export default App;

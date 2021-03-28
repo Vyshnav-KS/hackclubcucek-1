@@ -20,8 +20,12 @@ const useStyles = makeStyles({
 
   container: {
     margin: 'auto',
-    width: '80%',
+    width: '90%',
     maxWidth: 600
+  },
+
+  buttonContainer: {
+    display: 'flex',
   }
 })
 
@@ -53,6 +57,9 @@ const Signup = () => {
     console.log("button pressed");
   }
 
+  const handleLogin = () => {
+    history.push('/join/login')
+  }
   // Execute after submit press
   if (isSubmitPressed) {
     // waiting for response 
@@ -152,15 +159,28 @@ const Signup = () => {
           fullWidth
         />
 
-        {/* Submit Button */}
-        <Button className={classes.field}
-          type="submit" 
-          color="secondary" 
-          variant="contained"
-          onClick= {handleSubmit}
-        >
-          Submit
-        </Button>
+        <Container className={classes.buttonContainer}>
+          {/* Create Button */}
+          <Button className={classes.field}
+            type="submit" 
+            color="secondary" 
+            variant="contained"
+            onClick= {handleLogin}
+          >
+            Have Account?
+          </Button>
+
+          {/* Submit Button */}
+          <Button className={classes.field}
+            type="submit" 
+            color="primary" 
+            variant="contained"
+            onClick= {handleSubmit}
+          >
+            Submit
+          </Button>
+
+        </Container>
         <Typography variant="button" color="error">
           {currentStatus}
         </Typography>

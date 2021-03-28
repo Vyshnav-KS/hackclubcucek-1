@@ -3,11 +3,23 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from '@material-ui/core/Avatar';
-// import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import {Link} from 'react-router-dom'
+import {useEffect, useState} from 'react';
+import useFetch from '../useFetch';
+import {serverAddress} from '../Utility'
 
 const BlogCard = ({post}) => {
+  const [authorAvatar, setAuthorAvatar] = useState("");
+  const [target, setTarget] = useState({uri:`${serverAddress}/getUserInfo.php`, data: {name: post.author, type: "avatar"}});
+  const serverResponse = useFetch(target);
+
+  useEffect(() => {
+    if (serverResponse.data && serverResponse.data.result) {
+      setAuthorAvatar(serverResponse.data.avatar);
+    }
+  }, [serverResponse])
+
   return (
     <Link to={`/blogs/${post.id}`}>
       <Card elevation={1}>
@@ -21,11 +33,13 @@ const BlogCard = ({post}) => {
         <CardHeader
           title={post.author}
           subheader={post.date}
-        avatar={
-          <Avatar aria-label="recipe">
-            {post.author[0]}
-          </Avatar>
-        }
+          avatar={
+            <Avatar 
+              alt={post.author[0]}
+              src={authorAvatar}
+            >
+            </Avatar>
+          }
         />
         <CardContent>
           <Typography variant="h6" color="textSecondary">

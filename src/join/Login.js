@@ -21,8 +21,11 @@ const useStyles = makeStyles({
 
   container: {
     margin: 'auto',
-    width: '80%',
+    width: '90%',
     maxWidth: 600
+  },
+  buttonContainer: {
+    display: 'flex',
   }
 })
 
@@ -31,10 +34,6 @@ const Login = () => {
   // Username, Password
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState("");
-
-  // Username, Password error
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
   // State to hold submit button press
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
@@ -54,6 +53,10 @@ const Login = () => {
     setIsSubmitPressed(true);
     setTarget({uri: `${serverAddress}/login.php`, data: {name: userName, pass: password}});
     console.log("button pressed");
+  }
+
+  const handleCreateAccount = () => {
+    history.push('/join/signup')
   }
 
   // Called when Login success
@@ -104,7 +107,6 @@ const Login = () => {
         color="secondary" 
         fullWidth
         required
-        error={usernameError}
       />
 
 
@@ -116,18 +118,30 @@ const Login = () => {
         color="secondary"
         fullWidth
         required
-        error={passwordError}
       />
 
-      {/* Submit Button */}
-      <Button className={classes.field}
-        type="submit" 
-        color="secondary" 
-        variant="contained"
-        onClick= {handleSubmit}
-      >
-        Submit
-      </Button>
+      <Container className={classes.buttonContainer}>
+        {/* Create Button */}
+        <Button className={classes.field}
+          type="submit" 
+          color="secondary" 
+          variant="contained"
+          onClick= {handleCreateAccount}
+        >
+          Create Account?
+        </Button>
+
+        {/* Submit Button */}
+        <Button className={classes.field}
+          type="submit" 
+          color="primary" 
+          variant="contained"
+          onClick= {handleSubmit}
+        >
+          Submit
+        </Button>
+
+      </Container>
       <Typography variant="button" color="error" >
         {currentStatus}
       </Typography>
