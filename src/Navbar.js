@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
+import UserAvatar from "./navbar/UserAvatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,9 +38,6 @@ const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const onLoginClick = () => {
-    history.push("/join/login");
-  }
   const onHomeClick = () => {
     history.push("/");
   }
@@ -51,6 +49,9 @@ const Navbar = () => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
           <Avatar 
             className={classes.medium}
             alt="Hackclub_logo"
@@ -63,12 +64,9 @@ const Navbar = () => {
             <Hidden only={['xs']}>
               <Button color="inherit" onClick={onHomeClick}>HOME</Button>
               <Button color="inherit" onClick={onBlogClick}>BLOG</Button>
-              <Button color="inherit" onClick={onLoginClick}>Sign in</Button>
             </Hidden>
           </Container>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
+          <UserAvatar></UserAvatar>
         </Toolbar>
       </AppBar>
     </div>
