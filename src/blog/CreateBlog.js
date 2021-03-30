@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
   container: {
     margin: 'auto',
-    width: '85%',
+    width: '90%',
   },
 
   container2: {

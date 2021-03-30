@@ -8,13 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {useState} from 'react';
 import {useHistory} from 'react-router';
+import {getCookie} from '../Utility';
 
 const useStyles = makeStyles({
   list: {
-    width: '100%',
-  },
-  fullList: {
-    width: 'auto',
+    width: 300,
   },
 });
 
@@ -23,32 +21,44 @@ const SideDrawer = () => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   const history = useHistory();
 
+
   return (
     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setShowSideDrawer(!showSideDrawer)}>
       <MenuIcon />
       <Drawer open={showSideDrawer}>
-      <List className={classes.list}>
-        <ListItem button onClick={() => history.push("/blog")}>
-          <ListItemText primary="BLOGS"/>
-        </ListItem>
+        <div role="presentation">
+          <List className={classes.list}>
+            <ListItem button onClick={() => history.push("/blog")}>
+              <ListItemText primary="BLOGS"/>
+            </ListItem>
 
-        <ListItem button onClick={() => history.push("/blog/create")}>
-          <ListItemText primary="CREATE BLOG POST"/>
-        </ListItem>
+            <ListItem button onClick={() => history.push("/blog/create")}>
+              <ListItemText primary="CREATE BLOG POST"/>
+            </ListItem>
 
-        <ListItem button>
-          <ListItemText primary="EVENTS"/>
-        </ListItem>
-        <Divider/>
+            <ListItem button>
+              <ListItemText primary="EVENTS"/>
+            </ListItem>
+            <Divider/>
 
-        <ListItem button>
-          <ListItemText primary="ABOUT"/>
-        </ListItem>
+            <ListItem button>
+              <ListItemText primary="MY PROFILE" onClick={() => history.push("/profile/" + getCookie("username"))}/>
+            </ListItem>
 
-        <ListItem button>
-          <ListItemText primary="CONTACT US"/>
-        </ListItem>
-      </List>
+            <ListItem button>
+              <ListItemText primary="ACCOUNT MENU"/>
+            </ListItem>
+            <Divider/>
+
+            <ListItem button>
+              <ListItemText primary="ABOUT"/>
+            </ListItem>
+
+            <ListItem button>
+              <ListItemText primary="CONTACT US"/>
+            </ListItem>
+          </List>
+        </div>
       </Drawer>
     </IconButton>
   );
