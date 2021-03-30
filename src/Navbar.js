@@ -16,7 +16,7 @@ import UserAvatar from "./navbar/UserAvatar";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginBottom: 30
+    marginBottom: 30,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'inline-block',
     textAlign: 'right'
-  }
+  },
 }));
 
 const Navbar = () => {
@@ -58,7 +58,7 @@ const Navbar = () => {
             src={hackclub_logo}
           />
           <Typography variant="h6" className={classes.title}>
-            HackClub Cucek
+            HC|Cucek
           </Typography>
           <Container className={classes.container}>
             <Hidden only={['xs']}>

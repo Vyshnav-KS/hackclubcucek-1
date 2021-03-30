@@ -9,6 +9,8 @@ import Join from './Join';
 import Login from './join/Login';
 import Signup from './join/Signup';
 import Navbar from './Navbar';
+import UserProfileUpdate from './profile/UserProfileUpdate';
+import UserProfile from './UserProfile';
 
 function App() {
 
@@ -37,6 +39,12 @@ function App() {
             </Route>
             <Route exact path="/blogs/:id">
               <ViewBlog></ViewBlog>
+            </Route>
+            <Route exact path="/me">
+              <UserProfile></UserProfile>
+            </Route>
+            <Route exact path="/me/update">
+              <UserProfileUpdate></UserProfileUpdate>
             </Route>
           </Switch>
         </div>
