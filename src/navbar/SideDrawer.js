@@ -7,20 +7,60 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {useState} from 'react';
-import {useHistory} from 'react-router';
+import {useHistory, useLocation} from 'react-router';
 import {getCookie} from '../Utility';
 
 const useStyles = makeStyles({
   list: {
     width: 300,
   },
+  active: {
+    background: '#f4f4f4'
+  }
 });
 
 const SideDrawer = () => {
   const classes = useStyles();
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   const history = useHistory();
+  const location = useLocation();
 
+  const primaryList = [
+    {
+      name: "BLOGS",
+      path: "/blog"
+    },
+    {
+      name: "CREATE BLOG POST",
+      path: "/blog/create"
+    },
+    {
+      name: "EVENTS",
+      path: "/events"
+    },
+  ];
+
+  const personalList = [
+    {
+      name: "MY PROFILE",
+      path: "/profile/" + getCookie("username")
+    },
+    {
+      name: "ACCOUNT MENU",
+      path: "/me"
+    },
+  ];
+
+  const siteInfoList = [
+    {
+      name: "ABOUT",
+      path: "/about"
+    },
+    {
+      name: "CONTACT US",
+      path: "/contact"
+    },
+  ];
 
   return (
     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setShowSideDrawer(!showSideDrawer)}>
@@ -28,35 +68,25 @@ const SideDrawer = () => {
       <Drawer open={showSideDrawer}>
         <div role="presentation">
           <List className={classes.list}>
-            <ListItem button onClick={() => history.push("/blog")}>
-              <ListItemText primary="BLOGS"/>
-            </ListItem>
-
-            <ListItem button onClick={() => history.push("/blog/create")}>
-              <ListItemText primary="CREATE BLOG POST"/>
-            </ListItem>
-
-            <ListItem button>
-              <ListItemText primary="EVENTS"/>
-            </ListItem>
+            {primaryList.map(item => (
+              <ListItem button onClick={() => history.push(item.path)} className={location.pathname == item.path ? classes.active : null}>
+                <ListItemText primary={item.name}/>
+              </ListItem>
+            ))}
             <Divider/>
 
-            <ListItem button>
-              <ListItemText primary="MY PROFILE" onClick={() => history.push("/profile/" + getCookie("username"))}/>
-            </ListItem>
-
-            <ListItem button>
-              <ListItemText primary="ACCOUNT MENU"/>
-            </ListItem>
+            {personalList.map(item => (
+              <ListItem button onClick={() => history.push(item.path)} className={location.pathname == item.path ? classes.active : null}>
+                <ListItemText primary={item.name}/>
+              </ListItem>
+            ))}
             <Divider/>
 
-            <ListItem button>
-              <ListItemText primary="ABOUT"/>
-            </ListItem>
-
-            <ListItem button>
-              <ListItemText primary="CONTACT US"/>
-            </ListItem>
+            {siteInfoList.map(item => (
+              <ListItem button onClick={() => history.push(item.path)} className={location.pathname == item.path ? classes.active : null}>
+                <ListItemText primary={item.name}/>
+              </ListItem>
+            ))}
           </List>
         </div>
       </Drawer>

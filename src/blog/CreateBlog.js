@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress} from "../Utility.js"
@@ -9,6 +9,9 @@ import { makeStyles } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import BlogCardPreview from "./BlogCardPreview";
+import MarkdownRenderer from 'react-markdown-renderer';
+import Paper from '@material-ui/core/Paper';
+
 
 const useStyles = makeStyles({
   field: {
@@ -32,6 +35,15 @@ const useStyles = makeStyles({
     marginRight: 'auto',
     width: '100%',
     maxWidth: 600
+  },
+
+  paper: {
+    backgroundColor: '#f7f7f7',
+  },
+
+  post: {
+    margin: 20,
+    // textAlign: 'center'
   }
 
 })
@@ -50,6 +62,17 @@ const CreateBlog = () => {
 
   const serverResponse = useFetch(target);
   const history = useHistory();
+
+  const [postPreview, setPostPreview] = useState("");
+
+          
+  useEffect(() => {
+    console.log("Post preview updated")
+    const interval =setInterval(() => setPostPreview((<MarkdownRenderer markdown={body}></MarkdownRenderer>)), 3000);
+    return () => {
+      clearInterval(interval);
+    }
+  }, [postPreview])
 
   let currentStatus = '';
 
@@ -167,10 +190,21 @@ const CreateBlog = () => {
 
       <Container className={classes.container2}>
         <Typography variant="h2" color="primary" >
-          Preview
+          Card Preview
         </Typography>
         <BlogCardPreview post={{title: title, author: getCookie("username"), preview: previewImg, preview_text: previewText}}></BlogCardPreview>
+        <br/><br/><br/>
+        <Typography variant="h2" color="primary" >
+          Post Preview
+        </Typography>
       </Container>
+
+      <Paper elevation={0} variant="outlined" className={classes.paper}>
+        <Typography className={classes.post}>
+          {postPreview}
+        </Typography>
+      </Paper>
+      <br/><br/><br/>
     </Container>
   );
 }
