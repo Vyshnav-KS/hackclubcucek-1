@@ -40,7 +40,6 @@ const UserAvatar = () => {
           anchorEl={buttonRef.current}
           keepMounted
           open={showMenu}
-          onClose={handleClose}
         >
           <MenuItem onClick={() => history.push("/profile/" + getCookie("username"))}>Profile</MenuItem>
           <MenuItem onClick={() => history.push("/me")}>My account</MenuItem>
