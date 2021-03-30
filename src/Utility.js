@@ -20,7 +20,7 @@ export function getCookie(cname) {
 }
 
 // Funtion to setCookie
-export function setCookie(cname, cvalue, exdays) {
+export function setCookie(cname, cvalue, exdays = 30) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();

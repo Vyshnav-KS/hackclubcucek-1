@@ -18,17 +18,18 @@ badd +14 Footer.js
 badd +35 useFetch.js
 badd +6 Blog.js
 badd +134 blog/CreateBlog.js
-badd +2 Utility.js
+badd +25 Utility.js
 badd +3 Messages.js
 badd +37 blog/ViewBlog.js
 badd +19 blog/BlogCard.js
 badd +17 blog/BlogCardPreview.js
-badd +27 navbar/UserAvatar.js
+badd +47 navbar/UserAvatar.js
 badd +1 UserProfile.js
 badd +1 profile/UserProfileUpdate.js
+badd +0 profile/Profile.js
 argglobal
 %argdel
-edit navbar/UserAvatar.js
+edit profile/Profile.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -38,12 +39,12 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-let s:l = 27 - ((22 * winheight(0) + 22) / 45)
+let s:l = 1 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-27
-normal! 04|
+1
+normal! 013|
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

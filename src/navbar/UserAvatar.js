@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import useFetch from "../useFetch";
-import {getCookie, serverAddress} from "../Utility";
+import {getCookie, serverAddress, setCookie} from "../Utility";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -20,7 +20,9 @@ const UserAvatar = () => {
   }
 
   const onLogoutClick = () => {
-    history.push("/join/login");
+    setCookie('username', '');
+    setCookie('hash', '');
+    window.location.reload();
   }
 
   const handleClose = () => {
@@ -40,13 +42,13 @@ const UserAvatar = () => {
           open={showMenu}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => history.push("/profile")}>Profile</MenuItem>
+          <MenuItem onClick={() => history.push("/profile/" + getCookie("username"))}>Profile</MenuItem>
           <MenuItem onClick={() => history.push("/me")}>My account</MenuItem>
-          <MenuItem onClick={() => onLogoutClick}>Logout</MenuItem>
+          <MenuItem onClick={() => onLogoutClick()}>Logout</MenuItem>
         </Menu>
         <Avatar
           alt={getCookie('username')}
-          src={serverResponse.data.avatar}
+          src={serverResponse.data.userInfo.avatar}
         />
       </Button>
     )

@@ -9,6 +9,7 @@ import Join from './Join';
 import Login from './join/Login';
 import Signup from './join/Signup';
 import Navbar from './Navbar';
+import Profile from './profile/Profile';
 import UserProfileUpdate from './profile/UserProfileUpdate';
 import UserProfile from './UserProfile';
 
@@ -40,15 +41,15 @@ function App() {
             <Route exact path="/blogs/:id">
               <ViewBlog></ViewBlog>
             </Route>
-            <Route exact path="/me">
-              <UserProfile></UserProfile>
+            <Route exact path="/profile/:username">
+              <Profile/>
             </Route>
             <Route exact path="/me/update">
               <UserProfileUpdate></UserProfileUpdate>
             </Route>
           </Switch>
         </div>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
     </Router>
   );
 }
