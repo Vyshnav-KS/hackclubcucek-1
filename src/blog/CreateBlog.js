@@ -8,9 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import BlogCardPreview from "./BlogCardPreview";
 import MarkdownRenderer from 'react-markdown-renderer';
 import RenderPost from "./RenderPost";
+import PostCard from "../components/PostCard";
 
 
 const useStyles = makeStyles({
@@ -183,7 +183,13 @@ const CreateBlog = () => {
         <Typography variant="h2" color="primary" >
           Card Preview
         </Typography>
-        <BlogCardPreview post={{title: title, author: getCookie("username"), preview: previewImg, preview_text: previewText}}></BlogCardPreview>
+
+        <PostCard
+          title={title}
+          author={getCookie("username")}
+          previewImg={previewImg}
+          previewText={previewText}
+        />
         <br/><br/><br/>
         <Typography variant="h2" color="primary" >
           Post Preview
