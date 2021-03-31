@@ -113,6 +113,7 @@ const Signup = () => {
       }
       else {
         setCurrentStatus("");
+        handleLogin();
       }
     }
   }, [serverResponse.error, serverResponse.data])

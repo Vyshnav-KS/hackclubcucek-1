@@ -1,9 +1,8 @@
 // Login Menu
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
 import useFetch from "../useFetch";
 import {serverAddress} from '../Utility'
-import * as Messages from "../Messages";
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core'
@@ -36,21 +35,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   // State to hold submit button press
-  const [isSubmitPressed, setIsSubmitPressed] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
   // Our Fetch target
   const [target, setTarget] = useState({uri: "", data:{}});
 
   // Hook for navigation, to redirect to another page
   const history = useHistory();
   // This variable is used to show status when submit button is pressed.
-  let currentStatus = "";
+  const [currentStatus, setCurrentStatus] = useState("");
 
   // Fetch response
-  const {data, isLoading, error} = useFetch(target);
+  const serverResponse = useFetch(target);
 
   // Called when submit button is pressed
   const handleSubmit = () => {
-    setIsSubmitPressed(true);
+    setSubmitDisabled(true);
     setTarget({uri: `${serverAddress}/login.php`, data: {name: userName, pass: password}});
     console.log("button pressed");
   }
@@ -61,36 +60,30 @@ const Login = () => {
 
   // Called when Login success
   const onSuccess = () => {
-    currentStatus = "";
     // Set cookies
     document.cookie = `username=${userName}; path=/`;
-    document.cookie = `hash=${data.hash}; path=/`;
+    document.cookie = `hash=${serverResponse.data.hash}; path=/`;
     window.location.replace("/");
   }
 
-  // Execute after submit press
-  if (isSubmitPressed) {
-    // waiting for response 
-    if (isLoading) {
-      // Show Loading Message
-      currentStatus = Messages.Msg_Loading();
-    } 
-    else {
-      // Got response, but resulted in error
-      if (error && error.error) {
-        // Fetch request failed
-        currentStatus = Messages.Error_showError(error.msg);
-      }
-      else if (!data.result) {
-        // Error from server
-        currentStatus = Messages.Error_showError(data.err);
+  useEffect(() => {
+    if (serverResponse.error.error) {
+      setCurrentStatus(serverResponse.error.msg);
+      setSubmitDisabled(false);
+      console.log("error")
+    }
+    else if (serverResponse.data) {
+      if (!serverResponse.data.result) {
+        setCurrentStatus(serverResponse.data.err);
+        setSubmitDisabled(false);
       }
       else {
-        // All ok
+        setCurrentStatus("");
         onSuccess();
       }
     }
-  } 
+  }, [serverResponse.error, serverResponse.data])
+
 
   return (
     <Container className={classes.container}>
@@ -116,6 +109,7 @@ const Login = () => {
         label="Password"
         variant="outlined"
         color="secondary"
+        type="password"
         fullWidth
         required
       />
@@ -136,6 +130,7 @@ const Login = () => {
           type="submit" 
           color="primary" 
           variant="contained"
+          disabled={submitDisabled}
           onClick= {handleSubmit}
         >
           Submit
