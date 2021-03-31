@@ -56,6 +56,9 @@ const CreateBlog = () => {
 
   const [postPreview, setPostPreview] = useState("");
 
+  if (getCookie("username") === "") {
+    history.push("/join/login");
+  }
           
   useEffect(() => {
     console.log("Post preview updated")

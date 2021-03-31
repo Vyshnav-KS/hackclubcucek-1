@@ -26,3 +26,13 @@ export function setCookie(cname, cvalue, exdays = 30) {
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
+export function checkForSpecialChars(string) {
+  var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  if(format.test(string)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
