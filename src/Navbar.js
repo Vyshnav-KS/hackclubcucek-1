@@ -15,9 +15,9 @@ import SideDrawer from "./navbar/SideDrawer";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginBottom: 30,
     marginTop: 0,
-    // position: 'fixed',
+    top: 0,
+    position: 'fixed',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     textAlign: 'right'
   },
+  emptyDiv: {
+    margin: 100
+  }
 }));
 
 const Navbar = () => {
@@ -47,8 +50,8 @@ const Navbar = () => {
   }
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div>
+      <AppBar className={classes.root}>
         <Toolbar>
           <SideDrawer/>
           <Avatar 
@@ -68,6 +71,7 @@ const Navbar = () => {
           <UserIconMenu/>
         </Toolbar>
       </AppBar>
+      <div className={classes.emptyDiv}></div>
     </div>
   );
 }

@@ -38,7 +38,7 @@ function App() {
             <Route exact path="/blog/create">
               <CreateBlog></CreateBlog>
             </Route>
-            <Route exact path="/blogs/:id">
+            <Route exact path="/blog/:id">
               <ViewBlog></ViewBlog>
             </Route>
             <Route exact path="/profile/:username">
@@ -46,6 +46,21 @@ function App() {
             </Route>
             <Route exact path="/me/update">
               <UserProfileUpdate></UserProfileUpdate>
+            </Route>
+            <Route exact path="/events">
+              <h1>TO-DO</h1>
+            </Route>
+            <Route exact path="/news">
+              <h1>TO-DO</h1>
+            </Route>
+            <Route exact path="/me">
+              <h1>TO-DO</h1>
+            </Route>
+            <Route exact path="/about">
+              <h1>TO-DO</h1>
+            </Route>
+            <Route exact path="/contact">
+              <h1>TO-DO</h1>
             </Route>
           </Switch>
         </div>

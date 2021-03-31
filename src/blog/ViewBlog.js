@@ -6,8 +6,10 @@ import {serverAddress} from "../Utility";
 import RenderPost from "./RenderPost";
 import { makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography';
+import UserAvatar from "../components/UserAvatar";
+import Container from '@material-ui/core/Container'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) =>({
   root: {
     width: '100%',
     maxWidth: 1200,
@@ -18,8 +20,23 @@ const useStyles = makeStyles({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  avatarContainer: {
+     display: 'flex',
+    paddingLeft: 0,
+    marginTop: 10
+  },
+  largeIcon: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+  },
+  iconText: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10
   }
-})
+}));
 
 
 const ViewBlog = () => {
@@ -32,6 +49,7 @@ const ViewBlog = () => {
   let title="";
   let previewImg="";
   let content="";
+  let author="";
   console.log(target.uri);
 
   if (serverResponse.isLoading) {
@@ -46,6 +64,7 @@ const ViewBlog = () => {
   else {
     title = serverResponse.data.post.title;
     previewImg = serverResponse.data.post.preview;
+    author = serverResponse.data.post.author;
     content = (<div dangerouslySetInnerHTML={{ __html: serverResponse.data.post.content}}/>)
   }
   return (
@@ -53,12 +72,17 @@ const ViewBlog = () => {
       <Typography variant="h2" className={classes.title}>
         {title}
       </Typography>
+      <Container className={classes.avatarContainer}>
+        {author && (<UserAvatar username={author} className={classes.largeIcon}/>)}
+          <Typography variant="h6" className={classes.iconText}>{author}</Typography>
+      </Container>
+      <br/><br/>
       <RenderPost
         title={title}
         previewImg={previewImg}
         postPreview={content}
       />
-        {currentStatusJsx}
+      {currentStatusJsx}
     </div>
   );
 }

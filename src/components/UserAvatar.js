@@ -3,7 +3,7 @@ import {useState} from 'react';
 import useFetch from '../useFetch';
 import {serverAddress} from '../Utility';
 
-const UserAvatar = ({username}) => {
+const UserAvatar = ({username, className=null}) => {
   const [target, ] = useState({uri: `${serverAddress}/getUserInfo.php`, data: {name: username, type: 'avatar'}});
   const serverResponse = useFetch(target);
 
@@ -16,6 +16,7 @@ const UserAvatar = ({username}) => {
     <Avatar
       alt={username}
       src={imgSrc}
+      className={className}
     />
   );
 }
