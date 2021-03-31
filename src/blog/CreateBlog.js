@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import BlogCardPreview from "./BlogCardPreview";
 import MarkdownRenderer from 'react-markdown-renderer';
-import Paper from '@material-ui/core/Paper';
+import RenderPost from "./RenderPost";
 
 
 const useStyles = makeStyles({
@@ -36,15 +36,6 @@ const useStyles = makeStyles({
     width: '100%',
     maxWidth: 600
   },
-
-  paper: {
-    backgroundColor: '#f7f7f7',
-  },
-
-  post: {
-    margin: 20,
-    // textAlign: 'center'
-  }
 
 })
 
@@ -199,11 +190,11 @@ const CreateBlog = () => {
         </Typography>
       </Container>
 
-      <Paper elevation={0} variant="outlined" className={classes.paper}>
-        <Typography className={classes.post}>
-          {postPreview}
-        </Typography>
-      </Paper>
+      <RenderPost
+        title={title}
+        previewImg={previewImg}
+        postPreview={postPreview}
+      />
       <br/><br/><br/>
     </Container>
   );
