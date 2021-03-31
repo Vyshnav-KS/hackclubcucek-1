@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
-import UserAvatar from "./navbar/UserAvatar";
+import UserIconMenu from "./navbar/UserIconMenu";
 import SideDrawer from "./navbar/SideDrawer";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +65,7 @@ const Navbar = () => {
               <Button color="inherit" onClick={onBlogClick}>BLOG</Button>
             </Hidden>
           </Container>
-          <UserAvatar></UserAvatar>
+          <UserIconMenu/>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,15 +1,13 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
 import useFetch from "./useFetch";
 import {serverAddress} from './Utility';
 import * as Messages from "./Messages";
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import BlogCard from "./blog/BlogCard";
+import PostCard from "./components/PostCard";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles({
   field: {
@@ -24,11 +22,16 @@ const useStyles = makeStyles({
     margin: 'auto',
     width: '80%',
     maxWidth: 600
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: 20
   }
 })
 
 const Blog = () => {
-  const [target, setTarget] = useState({uri:  `${serverAddress}/blogs.php`, data: {sql: ""}});
+  const classes = useStyles();
+  const [target, ] = useState({uri:  `${serverAddress}/blogs.php`, data: {sql: ""}});
   const previewData = useFetch(target);
 
   let currentStatus = '';
@@ -51,10 +54,18 @@ const Blog = () => {
     else {
       // all ok
       currentStatus = '';
-      for (const blog of previewData.data.blogs) {
+      for (const post of previewData.data.blogs) {
         let postJsx = (
-          <Grid item xs={12} md={6} lg={4} key={blog.id}>
-            <BlogCard post={blog}></BlogCard>
+          <Grid item xs={12} md={6} lg={4} key={post.id}>
+            <Link to={"/blog/" + post.id}>
+              <PostCard
+                title={post.title}
+                author={post.author}
+                previewImg={post.preview}
+                previewText={post.preview_text}
+                date={post.date}
+              />
+            </Link>
           </Grid>
         );
         blogsJsx.push(postJsx);
@@ -64,6 +75,9 @@ const Blog = () => {
 
   return (
     <Container>
+      <Typography variant="h1" className={classes.title}>
+        BLOG
+      </Typography>
       <Grid container spacing={3}>
         {blogsJsx}
       </Grid>

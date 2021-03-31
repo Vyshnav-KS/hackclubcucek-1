@@ -2,13 +2,13 @@ import {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress, setCookie} from "../Utility";
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import UserAvatar from "../components/UserAvatar";
 
-const UserAvatar = () => {
-  const [target, ] = useState({uri: `${serverAddress}/getUserInfo.php`, data: {name: getCookie('username'), type: 'avatar'}});
+const UserIconMenu = () => {
+  const [target, ] = useState({uri: `${serverAddress}/getUserInfo.php`, data: {name: getCookie('username'), hash: getCookie('hash'), type: 'auth'}});
   const serverResponse = useFetch(target);
   const history = useHistory();
 
@@ -25,14 +25,11 @@ const UserAvatar = () => {
     window.location.reload();
   }
 
-  const handleClose = () => {
-  };
   // Shown when logged out
   let output = (<Button color="inherit" onClick={onLoginClick}>Sign in</Button>);
 
   // Set Output to avatar if logged in
   if (serverResponse.data && serverResponse.data.result) { 
-    console.log("Avatar set");
     output = (
       <Button ref={buttonRef} onClick={() => {setShowMenu(!showMenu)}}>
         <Menu
@@ -45,9 +42,8 @@ const UserAvatar = () => {
           <MenuItem onClick={() => history.push("/me")}>My account</MenuItem>
           <MenuItem onClick={() => onLogoutClick()}>Logout</MenuItem>
         </Menu>
-        <Avatar
-          alt={getCookie('username')}
-          src={serverResponse.data.userInfo.avatar}
+        <UserAvatar
+          username={getCookie('username')}
         />
       </Button>
     )
@@ -60,4 +56,4 @@ const UserAvatar = () => {
   );
 }
 
-export default UserAvatar
+export default UserIconMenu

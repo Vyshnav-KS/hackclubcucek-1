@@ -31,12 +31,16 @@ const SideDrawer = () => {
       path: "/blog"
     },
     {
-      name: "CREATE BLOG POST",
+      name: "CREATE NEW POST",
       path: "/blog/create"
     },
     {
       name: "EVENTS",
       path: "/events"
+    },
+    {
+      name: "NEWS",
+      path: "/news"
     },
   ];
 
@@ -69,21 +73,21 @@ const SideDrawer = () => {
         <div role="presentation">
           <List className={classes.list}>
             {primaryList.map(item => (
-              <ListItem button onClick={() => history.push(item.path)} className={location.pathname == item.path ? classes.active : null}>
+              <ListItem button onClick={() => history.push(item.path)} key={item.name} className={location.pathname === item.path ? classes.active : null}>
                 <ListItemText primary={item.name}/>
               </ListItem>
             ))}
             <Divider/>
 
             {personalList.map(item => (
-              <ListItem button onClick={() => history.push(item.path)} className={location.pathname == item.path ? classes.active : null}>
+              <ListItem button onClick={() => history.push(item.path)} key={item.name} className={location.pathname === item.path ? classes.active : null}>
                 <ListItemText primary={item.name}/>
               </ListItem>
             ))}
             <Divider/>
 
             {siteInfoList.map(item => (
-              <ListItem button onClick={() => history.push(item.path)} className={location.pathname == item.path ? classes.active : null}>
+              <ListItem button onClick={() => history.push(item.path)} key={item.name} className={location.pathname === item.path ? classes.active : null}>
                 <ListItemText primary={item.name}/>
               </ListItem>
             ))}

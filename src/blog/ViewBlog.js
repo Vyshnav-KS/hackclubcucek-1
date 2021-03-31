@@ -5,13 +5,19 @@ import useFetch from "../useFetch";
 import {serverAddress} from "../Utility";
 import RenderPost from "./RenderPost";
 import { makeStyles } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
     width: '100%',
     maxWidth: 1200,
     margin: 'auto',
-    marginTop: 0
+    marginTop: 0,
+    marginBottom: 40
+  },
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
   }
 })
 
@@ -44,6 +50,9 @@ const ViewBlog = () => {
   }
   return (
     <div className={classes.root}>
+      <Typography variant="h2" className={classes.title}>
+        {title}
+      </Typography>
       <RenderPost
         title={title}
         previewImg={previewImg}
