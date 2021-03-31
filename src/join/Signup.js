@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles({
   field: {
@@ -22,6 +23,20 @@ const useStyles = makeStyles({
     margin: 'auto',
     width: '90%',
     maxWidth: 600
+  },
+
+  avatarContainer: {
+    textAlign: 'center',
+    width: 'min-content',
+    margin: 'auto',
+    marginTop: 10,
+    marginBottom: 10
+  },
+
+  avatar: {
+    margin: 'auto',
+    width: 80,
+    height: 80
   },
 
   buttonContainer: {
@@ -106,6 +121,14 @@ const Signup = () => {
           Login
         </Typography>
 
+        <Container className={classes.avatarContainer}>
+          <Avatar
+            className={classes.avatar}
+            alt={userName}
+            src={avatar}
+          />
+          <Typography>{userName}</Typography>
+        </Container>
         {/* Username */}
         <TextField className={classes.field}
           onChange={(e) => setUserName(e.target.value)}
