@@ -65,7 +65,7 @@ const Login = () => {
     // Set cookies
     document.cookie = `username=${userName}; path=/`;
     document.cookie = `hash=${data.hash}; path=/`;
-    history.push("/");
+    window.location.replace("/");
   }
 
   // Execute after submit press
