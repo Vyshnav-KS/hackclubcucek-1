@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import {Error_showError, Msg_Loading} from "../Messages";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress} from "../Utility";
@@ -10,6 +10,7 @@ import UserAvatar from "../components/UserAvatar";
 import Container from '@material-ui/core/Container'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -56,6 +57,7 @@ const ViewBlog = () => {
   const {id} = useParams();
   const [target, ] = useState({uri: `${serverAddress}/viewBlogPost.php`, data: {id: id}});
   const serverResponse = useFetch(target);
+  const history = useHistory();
 
   let currentStatusJsx = "";
   let title="";
@@ -89,14 +91,16 @@ const ViewBlog = () => {
         {title}
       </Typography>
       <Container className={classes.avatarContainer}>
-        {author && (<UserAvatar username={author} className={classes.largeIcon}/>)}
-        <div>
-          <Typography variant="h6" className={classes.iconText}>{author}</Typography>
-          <Typography variant="h7" className={classes.iconText}>{date}</Typography>
-        </div>
-      <IconButton className={classes.optionBtn}>
-        <MoreVertIcon/>
-      </IconButton>
+        <Button onClick={ () => history.push("/profile/" + author)}>
+          {author && (<UserAvatar username={author} className={classes.largeIcon}/>)}
+          <div>
+            <Typography variant="h6" className={classes.iconText}>{author}</Typography>
+            <Typography variant="h7" className={classes.iconText}>{date}</Typography>
+          </div>
+        </Button>
+        <IconButton className={classes.optionBtn}>
+          <MoreVertIcon/>
+        </IconButton>
       </Container>
       <br/><br/>
       <RenderPost
