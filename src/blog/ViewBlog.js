@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {useHistory, useParams} from "react-router";
 import {Error_showError, Msg_Loading} from "../Messages";
 import useFetch from "../useFetch";
@@ -12,6 +12,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
 import MarkdownRenderer from 'react-markdown-renderer';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -45,18 +47,42 @@ const useStyles = makeStyles((theme) =>({
   }
 }));
 
-const showOptionBtn = (author, style) => {
+const showOptionBtn = (author, anchorEl , showMenu) => {
+  let options="";
   if (getCookie("username") === author) {
-    // return (
-    // );
+    console.log("You are the author")
+    options = (
+      <div>
+        <MenuItem>EditPost</MenuItem>
+        <MenuItem>Delete Post</MenuItem>
+      </div>
+    );
   }
-  return "";
+  else {
+    options = (
+      <div>
+        <MenuItem>Report Post</MenuItem>
+      </div>
+    );
+  }
+  return (
+    <Menu
+      id="simple-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={showMenu}
+    >
+      {options}
+    </Menu>
+  );
 }
 
 const ViewBlog = () => {
   const classes = useStyles()
   const {id} = useParams();
   const [target, ] = useState({uri: `${serverAddress}/viewBlogPost.php`, data: {id: id}});
+  const [showMenuOption, setShowMenuOption] = useState(false);
+  const menuOptionAnchor = useRef();
   const serverResponse = useFetch(target);
   const history = useHistory();
 
@@ -101,8 +127,9 @@ const ViewBlog = () => {
           </div>
         </Button>
         {/* Menu Button */}
-        <IconButton className={classes.optionBtn}>
+        <IconButton ref={menuOptionAnchor} className={classes.optionBtn} onClick={() => { setShowMenuOption(!showMenuOption)}}>
           <MoreVertIcon/>
+          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption)}
         </IconButton>
       </Container>
       <br/><br/>
