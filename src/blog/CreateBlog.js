@@ -62,7 +62,7 @@ const CreateBlog = () => {
           
   useEffect(() => {
     console.log("Post preview updated")
-    const interval =setInterval(() => setPostPreview((<MarkdownRenderer markdown={body}></MarkdownRenderer>)), 3000);
+    const interval =setInterval(() => setPostPreview((<MarkdownRenderer markdown={body} options={{html: true}}></MarkdownRenderer>)), 3000);
     return () => {
       clearInterval(interval);
     }
@@ -138,7 +138,7 @@ const CreateBlog = () => {
       {/* Body */}
       <TextField className={classes.field}
         onChange={(e) => setBody(e.target.value)}
-        label="Content"
+        label="Content(MD and Html)"
         variant="outlined"
         color="secondary"
         fullWidth

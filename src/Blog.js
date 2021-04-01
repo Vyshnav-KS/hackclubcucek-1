@@ -45,11 +45,11 @@ const Blog = () => {
   else {
     if (previewData.error.error) {
       // Fetch request failed
-      currentStatus = Messages.Error_showError(previewData.error.msg);
+      currentStatus = previewData.error.msg;
     }
     else if (!previewData.data.result) {
       // Error from server
-      currentStatus = Messages.Error_showError(previewData.data.err);
+      currentStatus = previewData.data.err;
     }
     else {
       // all ok
