@@ -43,7 +43,7 @@ const CreateBlog = () => {
   const classes = useStyles()
   // Title, body
   const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const [body, setBody] = useState("\n<style>\nh1 {\n text-align: center;\n }\n</style>\n\n# Heading 1\n## Heading 2\nThis is a paragraph.");
   const [previewImg, setPreviewImg] = useState("");
   const [previewText, setPreviewText] = useState("");
 
@@ -137,13 +137,14 @@ const CreateBlog = () => {
 
       {/* Body */}
       <TextField className={classes.field}
+        value={body}
         onChange={(e) => setBody(e.target.value)}
-        label="Content(MD and Html)"
+        label="Content(Markdown or HTML)"
         variant="outlined"
         color="secondary"
         fullWidth
         multiline
-        rows={10}
+        rows={18}
         required
         error={!isInputValid}
       />

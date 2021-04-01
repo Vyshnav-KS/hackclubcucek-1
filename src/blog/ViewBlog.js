@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
+import MarkdownRenderer from 'react-markdown-renderer';
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -81,7 +82,7 @@ const ViewBlog = () => {
     previewImg = serverResponse.data.post.preview;
     author = serverResponse.data.post.author;
     date = serverResponse.data.post.date;
-    content = (<div dangerouslySetInnerHTML={{ __html: serverResponse.data.post.content}}/>)
+    content = (<MarkdownRenderer markdown={serverResponse.data.post.content} options={{html: true}}></MarkdownRenderer>)
   }
 
 
