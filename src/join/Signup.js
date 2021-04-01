@@ -51,7 +51,7 @@ function validateUsername(username) {
 }
 
 function validatePassword(password, password2) {
-  return password >= 6 && password === password2;
+  return password.length >= 6 && (password === password2);
 }
 
 const Signup = () => {

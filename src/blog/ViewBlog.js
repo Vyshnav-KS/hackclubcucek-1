@@ -90,6 +90,7 @@ const ViewBlog = () => {
       <Typography variant="h2" className={classes.title}>
         {title}
       </Typography>
+      {/* Avatar Container */}
       <Container className={classes.avatarContainer}>
         <Button onClick={ () => history.push("/profile/" + author)}>
           {author && (<UserAvatar username={author} className={classes.largeIcon}/>)}
@@ -98,6 +99,7 @@ const ViewBlog = () => {
             <Typography variant="h7" className={classes.iconText}>{date}</Typography>
           </div>
         </Button>
+        {/* Menu Button */}
         <IconButton className={classes.optionBtn}>
           <MoreVertIcon/>
         </IconButton>
