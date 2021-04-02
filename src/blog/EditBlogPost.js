@@ -70,14 +70,6 @@ const EditBlogPost = () => {
   }, [postPreview])
 
 
-  useEffect(() => {
-    if (serverResponse.data && serverResponse.data.result) {
-      setTitle(serverResponse.data.post.title);
-      setBody(serverResponse.data.post.content);
-      setPreviewImg(serverResponse.data.post.preview);
-      setPreviewText(serverResponse.data.post.preview_text);
-    }
-  }, [serverResponse.data]);
 
   let currentStatus = '';
 
@@ -108,26 +100,53 @@ const EditBlogPost = () => {
     }
   }
 
-  if (isSubmitPressed) {
+  useEffect(() => {
+    // Show loading message
     if (serverResponse.isLoading) {
-      // Show Loading Message
-      currentStatus = Messages.Msg_Loading();
-    } 
-    else {
-      if (serverResponse.error.error) {
-        // Fetch request failed
-        currentStatus = Messages.Error_showError(serverResponse.error.msg);
-      } 
-      else if (!serverResponse.data.result) {
-        // Error from server
-        currentStatus = Messages.Error_showError(serverResponse.data.err);
-      } 
+      currentStatus = "LOADING ....";
+    }
+    else if (serverResponse.error.error) {
+      currentStatus = serverResponse.error.msg;
+    }
+    else if (serverResponse.data) {
+      // Error from server
+      if (!serverResponse.data.result) {
+        currentStatus = serverResponse.data.err;
+      }
       else {
-        // All ok
-        history.push("/blog");
+        if (serverResponse.data.post) {
+          setTitle(serverResponse.data.post.title);
+          setBody(serverResponse.data.post.content);
+          setPreviewImg(serverResponse.data.post.preview);
+          setPreviewText(serverResponse.data.post.preview_text);
+        }
+        else if (serverResponse.data.post_updated) {
+          history.push("/blog");
+        }
       }
     }
-  }
+  }, [serverResponse.data, serverResponse.isLoading, serverResponse.error]);
+
+  // if (isSubmitPressed) {
+  //   if (serverResponse.isLoading) {
+  //     // Show Loading Message
+  //     currentStatus = Messages.Msg_Loading();
+  //   } 
+  //   else {
+  //     if (serverResponse.error.error) {
+  //       // Fetch request failed
+  //       currentStatus = Messages.Error_showError(serverResponse.error.msg);
+  //     } 
+  //     else if (!serverResponse.data.result) {
+  //       // Error from server
+  //       currentStatus = Messages.Error_showError(serverResponse.data.err);
+  //     } 
+  //     else {
+  //       // All ok
+  //       history.push("/blog");
+  //     }
+  //   }
+  // }
 
 
   return (
