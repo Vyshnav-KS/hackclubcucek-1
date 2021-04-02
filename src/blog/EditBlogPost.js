@@ -50,7 +50,7 @@ const EditBlogPost = () => {
   const [previewText, setPreviewText] = useState("");
 
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
-  const [target, setTarget] = useState({uri: '', data: {}});
+  const [target, setTarget] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
   const [isInputValid, setIsInputValid] = useState(true);
 
   const serverResponse = useFetch(target);
@@ -63,12 +63,21 @@ const EditBlogPost = () => {
   }
           
   useEffect(() => {
-    console.log("Post preview updated")
     const interval =setInterval(() => setPostPreview((<MarkdownRenderer markdown={body} options={{html: true}}></MarkdownRenderer>)), 3000);
     return () => {
       clearInterval(interval);
     }
   }, [postPreview])
+
+
+  useEffect(() => {
+    if (serverResponse.data && serverResponse.data.result) {
+      setTitle(serverResponse.data.post.title);
+      setBody(serverResponse.data.post.content);
+      setPreviewImg(serverResponse.data.post.preview);
+      setPreviewText(serverResponse.data.post.preview_text);
+    }
+  }, [serverResponse.data]);
 
   let currentStatus = '';
 
@@ -80,7 +89,9 @@ const EditBlogPost = () => {
   const handleSubmit = () => {
     setIsSubmitPressed(true);
     if (verifyInput()) {
-      setTarget({uri: `${serverAddress}/createBlogPost.php`, data: {
+      setTarget({uri: `${serverAddress}/blogPost.php`, data: {
+        type: 'edit',
+        id: id,
         author: getCookie("username"),
         authorPass: getCookie("hash"),
         title: title,
@@ -128,6 +139,7 @@ const EditBlogPost = () => {
 
       {/* Title */}
       <TextField className={classes.field}
+        value={title}
         onChange={(e) => setTitle(e.target.value)}
         label="Title" 
         variant="outlined" 
@@ -153,6 +165,7 @@ const EditBlogPost = () => {
 
       {/* Preview Img */}
       <TextField className={classes.field}
+        value={previewImg}
         onChange={(e) => setPreviewImg(e.target.value)}
         label="Preview Image (Link)" 
         variant="outlined" 
@@ -162,6 +175,7 @@ const EditBlogPost = () => {
 
       {/* Preview Text */}
       <TextField className={classes.field}
+        value={previewText}
         onChange={(e) => setPreviewText(e.target.value)}
         label="Preview Text (Will be shown on card)" 
         variant="outlined" 
@@ -179,7 +193,7 @@ const EditBlogPost = () => {
         onClick= {handleSubmit}
         disabled={isSubmitPressed && !currentStatus} // disable button when submit is pressed and no status msg
       >
-        Submit
+        Update
       </Button>
       <Typography variant="button" color="error" >
         { currentStatus }

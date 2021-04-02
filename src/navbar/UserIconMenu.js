@@ -26,7 +26,7 @@ const UserIconMenu = () => {
   }
 
   // Shown when logged out
-  let output = (<Button color="inherit" onClick={onLoginClick}>Sign in</Button>);
+  let output = (<Button color="inherit" onClick={onLoginClick}>Signin</Button>);
 
   // Set Output to avatar if logged in
   if (serverResponse.data && serverResponse.data.result) { 

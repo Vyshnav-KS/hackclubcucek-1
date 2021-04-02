@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import MarkdownRenderer from 'react-markdown-renderer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -47,13 +48,13 @@ const useStyles = makeStyles((theme) =>({
   }
 }));
 
-const showOptionBtn = (author, anchorEl , showMenu) => {
+const showOptionBtn = (author, anchorEl , showMenu, id) => {
   let options="";
   if (getCookie("username") === author) {
     console.log("You are the author")
     options = (
       <div>
-        <MenuItem>EditPost</MenuItem>
+        <Link to={"/blog/edit/" + id}><MenuItem>EditPost</MenuItem></Link>
         <MenuItem>Delete Post</MenuItem>
       </div>
     );
@@ -129,7 +130,7 @@ const ViewBlog = () => {
         {/* Menu Button */}
         <IconButton ref={menuOptionAnchor} className={classes.optionBtn} onClick={() => { setShowMenuOption(!showMenuOption)}}>
           <MoreVertIcon/>
-          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption)}
+          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption, id)}
         </IconButton>
       </Container>
       <br/><br/>
