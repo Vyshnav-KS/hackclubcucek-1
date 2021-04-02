@@ -1,5 +1,6 @@
+
 import {useEffect, useState} from "react";
-import {useHistory} from "react-router";
+import {useHistory, useParams} from "react-router";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress} from "../Utility.js"
 import * as Messages from "../Messages";
@@ -39,11 +40,12 @@ const useStyles = makeStyles({
 
 })
 
-const CreateBlog = () => {
+const EditBlogPost = () => {
+  const {id} = useParams();
   const classes = useStyles()
   // Title, body
   const [title, setTitle] = useState('');
-  const [body, setBody] = useState("\n<style>\nh1 {\n text-align: center;\n }\n</style>\n\n# Heading 1\n## Heading 2\nThis is a paragraph.");
+  const [body, setBody] = useState("");
   const [previewImg, setPreviewImg] = useState("");
   const [previewText, setPreviewText] = useState("");
 
@@ -78,8 +80,7 @@ const CreateBlog = () => {
   const handleSubmit = () => {
     setIsSubmitPressed(true);
     if (verifyInput()) {
-      setTarget({uri: `${serverAddress}/blogPost.php`, data: {
-        type: 'create',
+      setTarget({uri: `${serverAddress}/createBlogPost.php`, data: {
         author: getCookie("username"),
         authorPass: getCookie("hash"),
         title: title,
@@ -211,4 +212,4 @@ const CreateBlog = () => {
   );
 }
 
-export default CreateBlog
+export default EditBlogPost

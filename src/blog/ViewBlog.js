@@ -80,7 +80,7 @@ const showOptionBtn = (author, anchorEl , showMenu) => {
 const ViewBlog = () => {
   const classes = useStyles()
   const {id} = useParams();
-  const [target, ] = useState({uri: `${serverAddress}/viewBlogPost.php`, data: {id: id}});
+  const [target, ] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
   const [showMenuOption, setShowMenuOption] = useState(false);
   const menuOptionAnchor = useRef();
   const serverResponse = useFetch(target);

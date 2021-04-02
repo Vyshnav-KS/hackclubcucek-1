@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 const Blog = () => {
   const classes = useStyles();
-  const [target, ] = useState({uri:  `${serverAddress}/blogs.php`, data: {sql: ""}});
+  const [target, ] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sql: ""}});
   const previewData = useFetch(target);
 
   let currentStatus = '';

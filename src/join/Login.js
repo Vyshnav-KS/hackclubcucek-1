@@ -50,7 +50,7 @@ const Login = () => {
   // Called when submit button is pressed
   const handleSubmit = () => {
     setSubmitDisabled(true);
-    setTarget({uri: `${serverAddress}/login.php`, data: {name: userName, pass: password}});
+    setTarget({uri: `${serverAddress}/users.php`, data: {type: "login", name: userName, pass: password}});
     console.log("button pressed");
   }
 

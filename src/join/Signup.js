@@ -84,7 +84,8 @@ const Signup = () => {
       setSubmitDisabled(false);
     }
     else {
-      setTarget({uri: `${serverAddress}/register.php`, data: {
+      setTarget({uri: `${serverAddress}/users.php`, data: {
+        type: 'register',
         name: userName,
         pass: password,
         bio: bio,
