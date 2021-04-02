@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import { useRef, useState} from "react";
 import {useHistory, useParams} from "react-router";
 import {Error_showError, Msg_Loading} from "../Messages";
 import useFetch from "../useFetch";
@@ -15,6 +15,7 @@ import MarkdownRenderer from 'react-markdown-renderer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from "react-router-dom";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -45,17 +46,24 @@ const useStyles = makeStyles((theme) =>({
   },
   optionBtn: {
     marginLeft: 'auto',
-  }
+  },
+  popupPaper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
-const showOptionBtn = (author, anchorEl , showMenu, id) => {
+const showOptionBtn = (author, anchorEl , showMenu, id, deleteConfirm) => {
   let options="";
   if (getCookie("username") === author) {
-    console.log("You are the author")
     options = (
       <div>
         <Link to={"/blog/edit/" + id}><MenuItem>EditPost</MenuItem></Link>
-        <MenuItem>Delete Post</MenuItem>
+        <MenuItem onClick={() => deleteConfirm(true)}>Delete Post</MenuItem>
       </div>
     );
   }
@@ -83,6 +91,7 @@ const ViewBlog = () => {
   const {id} = useParams();
   const [target, ] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
   const [showMenuOption, setShowMenuOption] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const menuOptionAnchor = useRef();
   const serverResponse = useFetch(target);
   const history = useHistory();
@@ -93,7 +102,6 @@ const ViewBlog = () => {
   let content="";
   let author="";
   let date="";
-  console.log(target.uri);
 
   if (serverResponse.isLoading) {
     currentStatusJsx = Msg_Loading();
@@ -130,7 +138,8 @@ const ViewBlog = () => {
         {/* Menu Button */}
         <IconButton ref={menuOptionAnchor} className={classes.optionBtn} onClick={() => { setShowMenuOption(!showMenuOption)}}>
           <MoreVertIcon/>
-          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption, id)}
+          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption, id, setShowDeleteConfirm)}
+          <DeleteConfirmation open={showDeleteConfirm} setOpen={setShowDeleteConfirm} postId={id}/>
         </IconButton>
       </Container>
       <br/><br/>

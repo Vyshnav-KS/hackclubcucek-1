@@ -7,27 +7,28 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +41 App.js
-badd +79 Navbar.js
+badd +46 App.js
+badd +53 Navbar.js
 badd +3 Home.js
 badd +8 Join.js
-badd +10 join/Login.js
-badd +129 join/Signup.js
+badd +49 join/Login.js
+badd +88 join/Signup.js
 badd +14 Footer.js
 badd +11 useFetch.js
-badd +1 Blog.js
-badd +121 blog/CreateBlog.js
+badd +37 Blog.js
+badd +82 blog/CreateBlog.js
 badd +2 Utility.js
 badd +1 Messages.js
-badd +58 blog/ViewBlog.js
+badd +139 blog/ViewBlog.js
 badd +14 UserProfile.js
 badd +47 profile/UserProfileUpdate.js
 badd +36 profile/Profile.js
 badd +35 navbar/SideDrawer.js
-badd +23 blog/RenderPost.js
-badd +6 components/UserAvatar.js
-badd +10 components/PostCard.js
-badd +15 navbar/UserIconMenu.js
+badd +17 blog/RenderPost.js
+badd +16 components/UserAvatar.js
+badd +14 components/PostCard.js
+badd +29 navbar/UserIconMenu.js
+badd +116 blog/EditBlogPost.js
 argglobal
 %argdel
 edit Utility.js

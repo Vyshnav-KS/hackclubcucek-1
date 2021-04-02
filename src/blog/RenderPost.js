@@ -10,6 +10,11 @@ const useStyles = makeStyles({
 
   post: {
     margin: 20,
+  },
+
+  image: {
+    width: '100%',
+    maxHeight: 500
   }
 })
 
@@ -18,6 +23,7 @@ const RenderPost = ({title, previewImg, postPreview}) => {
   return (
     <Paper elevation={0} variant="outlined" className={classes.paper}>
       <CardMedia
+        className={classes.image}
         component="img"
         alt={title}
         src={previewImg}
