@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import useFetch from "./useFetch";
 import {serverAddress} from './Utility';
 import * as Messages from "./Messages";
@@ -42,53 +42,59 @@ const useStyles = makeStyles({
   }
 })
 
+function generateGridItems(posts) {
+  let postsJsx = [];
+  for (const post of posts) {
+    let postJsx = (
+      <Grid item xs={12} md={6} lg={4} key={post.id}>
+        <Link to={"/blog/" + post.id}>
+          <PostCard
+            title={post.title}
+            author={post.author}
+            previewImg={post.preview}
+            previewText={post.preview_text}
+            date={post.date}
+          />
+        </Link>
+      </Grid>
+    );
+    postsJsx.push(postJsx);
+  }
+  return postsJsx;
+}
+
 const Blog = () => {
   const classes = useStyles();
-  const [target, ] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sort: ""}});
+  const [target, setTarget] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: "date"}});
   const [sortBy, setSortBy] = useState("date");
+  const [postsJsx, setPostsJsx] = useState([]);
   const [showMenuOption, setShowMenuOption] = useState(false);
-  const previewData = useFetch(target);
+  const serverResponse = useFetch(target);
 
   const menuOptionAnchor = useRef(null);
-  let currentStatus = '';
-  let blogsJsx = [];
+  const currentStatus = useRef("Loading ...");
 
+  useEffect(() => {
+    setTarget({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: sortBy}});
+  }, [sortBy]);
 
-  if (previewData.isLoading) {
-    // Show loading message
-    currentStatus = Messages.Msg_Loading();
-  } 
-  else {
-    if (previewData.error.error) {
+  useEffect(() => {
+    if (serverResponse.error.error) {
       // Fetch request failed
-      currentStatus = previewData.error.msg;
+      currentStatus.current = serverResponse.error.msg;
     }
-    else if (!previewData.data.result) {
-      // Error from server
-      currentStatus = previewData.data.err;
-    }
-    else {
-      // all ok
-      currentStatus = '';
-      for (const post of previewData.data.blogs) {
-        let postJsx = (
-          <Grid item xs={12} md={6} lg={4} key={post.id}>
-            <Link to={"/blog/" + post.id}>
-              <PostCard
-                title={post.title}
-                author={post.author}
-                previewImg={post.preview}
-                previewText={post.preview_text}
-                date={post.date}
-              />
-            </Link>
-          </Grid>
-        );
-        blogsJsx.push(postJsx);
+    else if (serverResponse.data) {
+      if (serverResponse.data.result) {
+        console.log("got 200")
+        currentStatus.current = "";
+        setPostsJsx(generateGridItems(serverResponse.data.posts));
+      }
+      else {
+        // Error from server
+        currentStatus.current = serverResponse.data.err;
       }
     }
-  } 
-
+  }, [serverResponse.error, serverResponse.data]);
 
 
   // Scroll event listener
@@ -113,19 +119,19 @@ const Blog = () => {
             keepMounted
             open={showMenuOption}
           >
-          <MenuItem onClick={() => setSortBy("date")}>Date</MenuItem>
-          <MenuItem onClick={() => setSortBy("likes")}>Likes</MenuItem>
-          <MenuItem onClick={() => setSortBy("title")}>Title</MenuItem>
-          <MenuItem onClick={() => setSortBy("author")}>Author</MenuItem>
+            <MenuItem onClick={() => setSortBy("date")}>Date</MenuItem>
+            <MenuItem onClick={() => setSortBy("likes")}>Likes</MenuItem>
+            <MenuItem onClick={() => setSortBy("title")}>Title</MenuItem>
+            <MenuItem onClick={() => setSortBy("author")}>Author</MenuItem>
           </Menu>
         </IconButton>
       </div>
 
       <Grid container spacing={3} >
-        {blogsJsx}
+        {postsJsx}
       </Grid>
       <Typography variant="button" color="error" >
-        {currentStatus}
+        {currentStatus.current}
       </Typography>
     </Container>
   );
