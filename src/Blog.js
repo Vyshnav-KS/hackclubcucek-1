@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import useFetch from "./useFetch";
 import {serverAddress} from './Utility';
 import * as Messages from "./Messages";
@@ -8,6 +8,10 @@ import { makeStyles } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import PostCard from "./components/PostCard";
 import {Link} from "react-router-dom";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles({
   field: {
@@ -24,16 +28,28 @@ const useStyles = makeStyles({
     maxWidth: 600
   },
   title: {
-    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  div: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 20
+  },
+  menuOption: {
+    marginLeft: 'auto',
+    marginRight: 20
   }
 })
 
 const Blog = () => {
   const classes = useStyles();
-  const [target, ] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sql: ""}});
+  const [target, ] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sort: ""}});
+  const [sortBy, setSortBy] = useState("date");
+  const [showMenuOption, setShowMenuOption] = useState(false);
   const previewData = useFetch(target);
 
+  const menuOptionAnchor = useRef(null);
   let currentStatus = '';
   let blogsJsx = [];
 
@@ -73,12 +89,39 @@ const Blog = () => {
     }
   } 
 
+
+
+  // Scroll event listener
+  window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      console.log("At bottom of the page")
+    }
+  };
+
   return (
-    <Container>
-      <Typography variant="h1" className={classes.title}>
-        BLOG
-      </Typography>
-      <Grid container spacing={3}>
+    <Container >
+      <div className={classes.div}>
+        <Typography variant="h3" className={classes.title}>
+          BLOG
+        </Typography>
+        <Typography className={classes.menuOption}>Sort by: {sortBy} </Typography>
+        <IconButton ref={menuOptionAnchor} className="icon" onClick={() => { setShowMenuOption(!showMenuOption)}}>
+          <MoreVertIcon/>
+          <Menu
+            id="simple-menu"
+            anchorEl={menuOptionAnchor.current}
+            keepMounted
+            open={showMenuOption}
+          >
+          <MenuItem onClick={() => setSortBy("date")}>Date</MenuItem>
+          <MenuItem onClick={() => setSortBy("likes")}>Likes</MenuItem>
+          <MenuItem onClick={() => setSortBy("title")}>Title</MenuItem>
+          <MenuItem onClick={() => setSortBy("author")}>Author</MenuItem>
+          </Menu>
+        </IconButton>
+      </div>
+
+      <Grid container spacing={3} >
         {blogsJsx}
       </Grid>
       <Typography variant="button" color="error" >
