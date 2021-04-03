@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import useFetch from "./useFetch";
 import {serverAddress} from './Utility';
-import * as Messages from "./Messages";
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core'
@@ -42,12 +41,12 @@ const useStyles = makeStyles({
   }
 })
 
-function generateGridItems(posts) {
+function generateGridItems(posts, postType) {
   let postsJsx = [];
   for (const post of posts) {
     let postJsx = (
       <Grid item xs={12} md={6} lg={4} key={post.id}>
-        <Link to={"/blog/" + post.id}>
+        <Link to={`/${postType}/${post.id}`}>
           <PostCard
             title={post.title}
             author={post.author}
@@ -63,9 +62,9 @@ function generateGridItems(posts) {
   return postsJsx;
 }
 
-const Blog = () => {
+const ListPosts = ({postType}) => {
   const classes = useStyles();
-  const [target, setTarget] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: "date"}});
+  const [target, setTarget] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: "date", postType: postType}});
   const [sortBy, setSortBy] = useState("date");
   const [postsJsx, setPostsJsx] = useState([]);
   const [showMenuOption, setShowMenuOption] = useState(false);
@@ -75,8 +74,8 @@ const Blog = () => {
   const currentStatus = useRef("Loading ...");
 
   useEffect(() => {
-    setTarget({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: sortBy}});
-  }, [sortBy]);
+    setTarget({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: sortBy, postType: postType}});
+  }, [sortBy, postType]);
 
   useEffect(() => {
     if (serverResponse.error.error) {
@@ -87,7 +86,7 @@ const Blog = () => {
       if (serverResponse.data.result) {
         console.log("got 200")
         currentStatus.current = "";
-        setPostsJsx(generateGridItems(serverResponse.data.posts));
+        setPostsJsx(generateGridItems(serverResponse.data.posts, postType));
       }
       else {
         // Error from server
@@ -108,7 +107,7 @@ const Blog = () => {
     <Container >
       <div className={classes.div}>
         <Typography variant="h3" className={classes.title}>
-          BLOG
+          {postType.toUpperCase()}
         </Typography>
         <Typography className={classes.menuOption}>Sort by: {sortBy} </Typography>
         <IconButton ref={menuOptionAnchor} className="icon" onClick={() => { setShowMenuOption(!showMenuOption)}}>
@@ -137,4 +136,4 @@ const Blog = () => {
   );
 }
 
-export default Blog
+export default ListPosts

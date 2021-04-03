@@ -11,7 +11,10 @@ import Button from '@material-ui/core/Button'
 import MarkdownRenderer from 'react-markdown-renderer';
 import RenderPost from "./RenderPost";
 import PostCard from "../components/PostCard";
-
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles({
   field: {
@@ -39,13 +42,14 @@ const useStyles = makeStyles({
 
 })
 
-const CreateBlog = () => {
+const CreatePost = () => {
   const classes = useStyles()
   // Title, body
   const [title, setTitle] = useState('');
   const [body, setBody] = useState("\n<style>\nh1 {\n text-align: center;\n }\n</style>\n\n# Heading 1\n## Heading 2\nThis is a paragraph.");
   const [previewImg, setPreviewImg] = useState("");
   const [previewText, setPreviewText] = useState("");
+  const [postType, setPostType] = useState("blog");
 
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
   const [target, setTarget] = useState({uri: '', data: {}});
@@ -60,6 +64,7 @@ const CreateBlog = () => {
     history.push("/join/login");
   }
           
+  // Update preview every 3000 ms
   useEffect(() => {
     console.log("Post preview updated")
     const interval =setInterval(() => setPostPreview((<MarkdownRenderer markdown={body} options={{html: true}}></MarkdownRenderer>)), 3000);
@@ -80,6 +85,7 @@ const CreateBlog = () => {
     if (verifyInput()) {
       setTarget({uri: `${serverAddress}/blogPost.php`, data: {
         type: 'create',
+        postType: postType,
         author: getCookie("username"),
         authorPass: getCookie("hash"),
         title: title,
@@ -170,6 +176,20 @@ const CreateBlog = () => {
         fullWidth
       />
 
+      <FormControl variant="outlined" >
+        <InputLabel id="demo-simple-select-outlined-label">Type</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Age"
+          value={postType}
+          onChange={(e) => setPostType(e.target.value)}
+        >
+          <MenuItem value={"blog"}>Blog Post</MenuItem>
+          <MenuItem value={"events"}>Event</MenuItem>
+          <MenuItem value={"news"}>News</MenuItem>
+        </Select>
+      </FormControl>
       {/* Submit Button */}
       <Button className={classes.field}
         type="submit" 
@@ -211,4 +231,4 @@ const CreateBlog = () => {
   );
 }
 
-export default CreateBlog
+export default CreatePost

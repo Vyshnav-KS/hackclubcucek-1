@@ -86,7 +86,7 @@ const showOptionBtn = (author, anchorEl , showMenu, id, deleteConfirm) => {
   );
 }
 
-const ViewBlog = () => {
+const ViewPost = () => {
   const classes = useStyles()
   const {id} = useParams();
   const [target, ] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
@@ -153,4 +153,4 @@ const ViewBlog = () => {
   );
 }
 
-export default ViewBlog
+export default ViewPost

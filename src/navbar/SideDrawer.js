@@ -32,7 +32,7 @@ const SideDrawer = () => {
     },
     {
       name: "CREATE NEW POST",
-      path: "/blog/create"
+      path: "/create"
     },
     {
       name: "EVENTS",
