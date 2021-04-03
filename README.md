@@ -24,3 +24,9 @@ Run `yarn start` to test development version of this site (without any server si
 
 Execute `build.sh` shell script to generate release website. It will download server side code and
 will generate website on `build/` folder. You can host contents of `build/` in any apache server.
+
+## DEVELOPMENT
+
+* STABLE REPO : [stable repo](https://github.com/hackclub-cucek/hackclubCucekWebsite)
+* DEVELOPMENT REPO : [development repo](https://github.com/Teams-cs/hackclubcucek) (Create
+  issues/feature request here).
