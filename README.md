@@ -30,4 +30,4 @@ will generate website on `build/` folder. You can host contents of `build/` in a
 * STABLE REPO : [stable repo](https://github.com/hackclub-cucek/hackclubCucekWebsite)
 * DEVELOPMENT REPO : [development repo](https://github.com/Teams-cs/hackclubcucek) (Create
   issues/feature request here).
-* SERVER REPO : [stable repo](https://github.com/Teams-cs/cucekhackclubServer)
+* SERVER REPO : [Server repo](https://github.com/Teams-cs/cucekhackclubServer)
