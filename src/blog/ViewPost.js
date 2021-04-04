@@ -16,6 +16,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from "react-router-dom";
 import DeleteConfirmation from "./DeleteConfirmation";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -55,6 +57,13 @@ const useStyles = makeStyles((theme) =>({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  likeButton : {
+    marginTop: 20,
+  },
+  likeIcon: {
+    width: 50,
+    height: 50,
+  }
 }));
 
 const showOptionBtn = (author, anchorEl , showMenu, id, deleteConfirm) => {
@@ -148,6 +157,10 @@ const ViewPost = () => {
         previewImg={previewImg}
         postPreview={content}
       />
+        <IconButton aria-label="add to favorites" className={classes.likeButton} >
+          {/* <FavoriteIcon className={classes.likeIcon}/> */}
+          <FavoriteBorderIcon className={classes.likeIcon}/>
+        </IconButton>
       {currentStatusJsx}
     </div>
   );

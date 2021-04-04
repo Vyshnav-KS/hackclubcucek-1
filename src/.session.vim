@@ -18,21 +18,21 @@ badd +11 useFetch.js
 badd +54 blog/CreateBlog.js
 badd +3 Utility.js
 badd +1 Messages.js
-badd +77 blog/ViewBlog.js
 badd +14 UserProfile.js
 badd +47 profile/UserProfileUpdate.js
 badd +1 profile/Profile.js
 badd +35 navbar/SideDrawer.js
 badd +17 blog/RenderPost.js
 badd +16 components/UserAvatar.js
-badd +14 components/PostCard.js
+badd +38 components/PostCard.js
 badd +29 navbar/UserIconMenu.js
 badd +116 blog/EditBlogPost.js
 badd +34 blog/DeleteConfirmation.js
-badd +128 ListPosts.js
+badd +50 ListPosts.js
+badd +0 blog/ViewPost.js
 argglobal
 %argdel
-edit Utility.js
+edit blog/ViewPost.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -42,11 +42,11 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-let s:l = 3 - ((2 * winheight(0) + 22) / 45)
+let s:l = 103 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
+103
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
