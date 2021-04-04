@@ -1,5 +1,6 @@
+
 import {useEffect, useState} from "react";
-import {useHistory} from "react-router";
+import {useHistory, useParams} from "react-router";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress} from "../Utility.js"
 import * as Messages from "../Messages";
@@ -39,16 +40,17 @@ const useStyles = makeStyles({
 
 })
 
-const CreateBlog = () => {
+const EditBlogPost = () => {
+  const {id} = useParams();
   const classes = useStyles()
   // Title, body
   const [title, setTitle] = useState('');
-  const [body, setBody] = useState("\n<style>\nh1 {\n text-align: center;\n }\n</style>\n\n# Heading 1\n## Heading 2\nThis is a paragraph.");
+  const [body, setBody] = useState("");
   const [previewImg, setPreviewImg] = useState("");
   const [previewText, setPreviewText] = useState("");
 
   const [isSubmitPressed, setIsSubmitPressed] = useState(false);
-  const [target, setTarget] = useState({uri: '', data: {}});
+  const [target, setTarget] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
   const [isInputValid, setIsInputValid] = useState(true);
 
   const serverResponse = useFetch(target);
@@ -61,12 +63,13 @@ const CreateBlog = () => {
   }
           
   useEffect(() => {
-    console.log("Post preview updated")
     const interval =setInterval(() => setPostPreview((<MarkdownRenderer markdown={body} options={{html: true}}></MarkdownRenderer>)), 3000);
     return () => {
       clearInterval(interval);
     }
   }, [postPreview])
+
+
 
   let currentStatus = '';
 
@@ -79,7 +82,8 @@ const CreateBlog = () => {
     setIsSubmitPressed(true);
     if (verifyInput()) {
       setTarget({uri: `${serverAddress}/blogPost.php`, data: {
-        type: 'create',
+        type: 'edit',
+        id: id,
         author: getCookie("username"),
         authorPass: getCookie("hash"),
         title: title,
@@ -96,26 +100,53 @@ const CreateBlog = () => {
     }
   }
 
-  if (isSubmitPressed) {
+  useEffect(() => {
+    // Show loading message
     if (serverResponse.isLoading) {
-      // Show Loading Message
-      currentStatus = Messages.Msg_Loading();
-    } 
-    else {
-      if (serverResponse.error.error) {
-        // Fetch request failed
-        currentStatus = Messages.Error_showError(serverResponse.error.msg);
-      } 
-      else if (!serverResponse.data.result) {
-        // Error from server
-        currentStatus = Messages.Error_showError(serverResponse.data.err);
-      } 
+      currentStatus = "LOADING ....";
+    }
+    else if (serverResponse.error.error) {
+      currentStatus = serverResponse.error.msg;
+    }
+    else if (serverResponse.data) {
+      // Error from server
+      if (!serverResponse.data.result) {
+        currentStatus = serverResponse.data.err;
+      }
       else {
-        // All ok
-        history.push("/blog");
+        if (serverResponse.data.post) {
+          setTitle(serverResponse.data.post.title);
+          setBody(serverResponse.data.post.content);
+          setPreviewImg(serverResponse.data.post.preview);
+          setPreviewText(serverResponse.data.post.preview_text);
+        }
+        else if (serverResponse.data.post_updated) {
+          history.push("/blog");
+        }
       }
     }
-  }
+  }, [serverResponse.data, serverResponse.isLoading, serverResponse.error]);
+
+  // if (isSubmitPressed) {
+  //   if (serverResponse.isLoading) {
+  //     // Show Loading Message
+  //     currentStatus = Messages.Msg_Loading();
+  //   } 
+  //   else {
+  //     if (serverResponse.error.error) {
+  //       // Fetch request failed
+  //       currentStatus = Messages.Error_showError(serverResponse.error.msg);
+  //     } 
+  //     else if (!serverResponse.data.result) {
+  //       // Error from server
+  //       currentStatus = Messages.Error_showError(serverResponse.data.err);
+  //     } 
+  //     else {
+  //       // All ok
+  //       history.push("/blog");
+  //     }
+  //   }
+  // }
 
 
   return (
@@ -127,6 +158,7 @@ const CreateBlog = () => {
 
       {/* Title */}
       <TextField className={classes.field}
+        value={title}
         onChange={(e) => setTitle(e.target.value)}
         label="Title" 
         variant="outlined" 
@@ -152,6 +184,7 @@ const CreateBlog = () => {
 
       {/* Preview Img */}
       <TextField className={classes.field}
+        value={previewImg}
         onChange={(e) => setPreviewImg(e.target.value)}
         label="Preview Image (Link)" 
         variant="outlined" 
@@ -161,6 +194,7 @@ const CreateBlog = () => {
 
       {/* Preview Text */}
       <TextField className={classes.field}
+        value={previewText}
         onChange={(e) => setPreviewText(e.target.value)}
         label="Preview Text (Will be shown on card)" 
         variant="outlined" 
@@ -178,7 +212,7 @@ const CreateBlog = () => {
         onClick= {handleSubmit}
         disabled={isSubmitPressed && !currentStatus} // disable button when submit is pressed and no status msg
       >
-        Submit
+        Update
       </Button>
       <Typography variant="button" color="error" >
         { currentStatus }
@@ -211,4 +245,4 @@ const CreateBlog = () => {
   );
 }
 
-export default CreateBlog
+export default EditBlogPost

@@ -51,7 +51,7 @@ function validateUsername(username) {
 }
 
 function validatePassword(password, password2) {
-  return password >= 6 && password === password2;
+  return password.length >= 6 && (password === password2);
 }
 
 const Signup = () => {
@@ -84,7 +84,8 @@ const Signup = () => {
       setSubmitDisabled(false);
     }
     else {
-      setTarget({uri: `${serverAddress}/register.php`, data: {
+      setTarget({uri: `${serverAddress}/users.php`, data: {
+        type: 'register',
         name: userName,
         pass: password,
         bio: bio,

@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import UserAvatar from "../components/UserAvatar";
 
 const UserIconMenu = () => {
-  const [target, ] = useState({uri: `${serverAddress}/getUserInfo.php`, data: {name: getCookie('username'), hash: getCookie('hash'), type: 'auth'}});
+  const [target, ] = useState({uri: `${serverAddress}/users.php`, data: {name: getCookie('username'), hash: getCookie('hash'), type: 'auth'}});
   const serverResponse = useFetch(target);
   const history = useHistory();
 
@@ -26,7 +26,7 @@ const UserIconMenu = () => {
   }
 
   // Shown when logged out
-  let output = (<Button color="inherit" onClick={onLoginClick}>Sign in</Button>);
+  let output = (<Button color="inherit" onClick={onLoginClick}>Signin</Button>);
 
   // Set Output to avatar if logged in
   if (serverResponse.data && serverResponse.data.result) { 

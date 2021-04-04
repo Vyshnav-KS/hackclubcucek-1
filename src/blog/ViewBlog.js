@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useRef, useState} from "react";
 import {useHistory, useParams} from "react-router";
 import {Error_showError, Msg_Loading} from "../Messages";
 import useFetch from "../useFetch";
@@ -11,6 +11,11 @@ import Container from '@material-ui/core/Container'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
+import MarkdownRenderer from 'react-markdown-renderer';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import {Link} from "react-router-dom";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -41,21 +46,53 @@ const useStyles = makeStyles((theme) =>({
   },
   optionBtn: {
     marginLeft: 'auto',
-  }
+  },
+  popupPaper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
-const showOptionBtn = (author, style) => {
+const showOptionBtn = (author, anchorEl , showMenu, id, deleteConfirm) => {
+  let options="";
   if (getCookie("username") === author) {
-    // return (
-    // );
+    options = (
+      <div>
+        <Link to={"/blog/edit/" + id}><MenuItem>EditPost</MenuItem></Link>
+        <MenuItem onClick={() => deleteConfirm(true)}>Delete Post</MenuItem>
+      </div>
+    );
   }
-  return "";
+  else {
+    options = (
+      <div>
+        <MenuItem>Report Post</MenuItem>
+      </div>
+    );
+  }
+  return (
+    <Menu
+      id="simple-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={showMenu}
+    >
+      {options}
+    </Menu>
+  );
 }
 
 const ViewBlog = () => {
   const classes = useStyles()
   const {id} = useParams();
-  const [target, ] = useState({uri: `${serverAddress}/viewBlogPost.php`, data: {id: id}});
+  const [target, ] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
+  const [showMenuOption, setShowMenuOption] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const menuOptionAnchor = useRef();
   const serverResponse = useFetch(target);
   const history = useHistory();
 
@@ -65,7 +102,6 @@ const ViewBlog = () => {
   let content="";
   let author="";
   let date="";
-  console.log(target.uri);
 
   if (serverResponse.isLoading) {
     currentStatusJsx = Msg_Loading();
@@ -81,7 +117,7 @@ const ViewBlog = () => {
     previewImg = serverResponse.data.post.preview;
     author = serverResponse.data.post.author;
     date = serverResponse.data.post.date;
-    content = (<div dangerouslySetInnerHTML={{ __html: serverResponse.data.post.content}}/>)
+    content = (<MarkdownRenderer markdown={serverResponse.data.post.content} options={{html: true}}></MarkdownRenderer>)
   }
 
 
@@ -90,6 +126,7 @@ const ViewBlog = () => {
       <Typography variant="h2" className={classes.title}>
         {title}
       </Typography>
+      {/* Avatar Container */}
       <Container className={classes.avatarContainer}>
         <Button onClick={ () => history.push("/profile/" + author)}>
           {author && (<UserAvatar username={author} className={classes.largeIcon}/>)}
@@ -98,8 +135,11 @@ const ViewBlog = () => {
             <Typography variant="h7" className={classes.iconText}>{date}</Typography>
           </div>
         </Button>
-        <IconButton className={classes.optionBtn}>
+        {/* Menu Button */}
+        <IconButton ref={menuOptionAnchor} className={classes.optionBtn} onClick={() => { setShowMenuOption(!showMenuOption)}}>
           <MoreVertIcon/>
+          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption, id, setShowDeleteConfirm)}
+          <DeleteConfirmation open={showDeleteConfirm} setOpen={setShowDeleteConfirm} postId={id}/>
         </IconButton>
       </Container>
       <br/><br/>

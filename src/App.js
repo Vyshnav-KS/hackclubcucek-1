@@ -1,6 +1,7 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'; 
 import Blog from './Blog';
 import CreateBlog from './blog/CreateBlog';
+import EditBlogPost from './blog/EditBlogPost';
 import ViewBlog from './blog/ViewBlog';
 import Footer from './Footer';
 import Home from './Home';
@@ -40,6 +41,9 @@ function App() {
             </Route>
             <Route exact path="/blog/:id">
               <ViewBlog></ViewBlog>
+            </Route>
+            <Route exact path="/blog/edit/:id">
+              <EditBlogPost/>
             </Route>
             <Route exact path="/profile/:username">
               <Profile/>

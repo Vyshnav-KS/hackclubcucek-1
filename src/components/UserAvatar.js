@@ -4,7 +4,7 @@ import useFetch from '../useFetch';
 import {serverAddress} from '../Utility';
 
 const UserAvatar = ({username, className=null}) => {
-  const [target, ] = useState({uri: `${serverAddress}/getUserInfo.php`, data: {name: username, type: 'avatar'}});
+  const [target, ] = useState({uri: `${serverAddress}/users.php`, data: {name: username, type: 'info', field: 'avatar'}});
   const serverResponse = useFetch(target);
 
   let imgSrc = ""; 

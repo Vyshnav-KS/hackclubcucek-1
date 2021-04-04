@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 const Blog = () => {
   const classes = useStyles();
-  const [target, ] = useState({uri:  `${serverAddress}/blogs.php`, data: {sql: ""}});
+  const [target, ] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sql: ""}});
   const previewData = useFetch(target);
 
   let currentStatus = '';
@@ -45,11 +45,11 @@ const Blog = () => {
   else {
     if (previewData.error.error) {
       // Fetch request failed
-      currentStatus = Messages.Error_showError(previewData.error.msg);
+      currentStatus = previewData.error.msg;
     }
     else if (!previewData.data.result) {
       // Error from server
-      currentStatus = Messages.Error_showError(previewData.data.err);
+      currentStatus = previewData.data.err;
     }
     else {
       // all ok

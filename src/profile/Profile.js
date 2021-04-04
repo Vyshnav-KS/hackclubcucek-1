@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
   const classes = useStyles();
   const {username} = useParams();
-  const [target, ] = useState({uri: `${serverAddress}/getUserInfo.php`, data: {name: username, type: 'avatar,bio'}});
+  const [target, ] = useState({uri: `${serverAddress}/users.php`, data: {type: 'info', name: username, field: 'avatar,bio'}});
   const serverResponse = useFetch(target);
   
   let currentStatus = "Loading...";
