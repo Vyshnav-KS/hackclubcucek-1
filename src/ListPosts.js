@@ -53,6 +53,7 @@ function generateGridItems(posts, postType) {
             previewImg={post.preview}
             previewText={post.preview_text}
             date={post.date}
+            likes={post.likes}
           />
         </Link>
       </Grid>
