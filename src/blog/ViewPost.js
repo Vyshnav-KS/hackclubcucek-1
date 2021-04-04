@@ -1,6 +1,5 @@
-import { useRef, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import {useHistory, useParams} from "react-router";
-import {Error_showError, Msg_Loading} from "../Messages";
 import useFetch from "../useFetch";
 import {getCookie, serverAddress} from "../Utility";
 import RenderPost from "./RenderPost";
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) =>({
     fontWeight: 'bold',
   },
   avatarContainer: {
-     display: 'flex',
+    display: 'flex',
     paddingLeft: 0,
     marginTop: 10
   },
@@ -63,6 +62,7 @@ const useStyles = makeStyles((theme) =>({
   likeIcon: {
     width: 50,
     height: 50,
+    marginRight: 10,
   }
 }));
 
@@ -98,70 +98,95 @@ const showOptionBtn = (author, anchorEl , showMenu, id, deleteConfirm) => {
 const ViewPost = () => {
   const classes = useStyles()
   const {id} = useParams();
-  const [target, ] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id}});
+  const [target, ] = useState({uri: `${serverAddress}/blogPost.php`, data: {type: 'view', id: id, user: getCookie('username')}});
+  const [target2, setTarget2] = useState({uri: '', data: {}});
+
   const [showMenuOption, setShowMenuOption] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const menuOptionAnchor = useRef();
   const serverResponse = useFetch(target);
+  const serverResponse2 = useFetch(target2);
   const history = useHistory();
 
-  let currentStatusJsx = "";
-  let title="";
-  let previewImg="";
-  let content="";
-  let author="";
-  let date="";
+  const currentStatusJsx = useRef('');
+  const [post, setPost] = useState({
+    title: '', previewImg: '', author: '',
+    date: '', content: '', likes: 0, likedByUser: false
+  });
+  const [postLiked, setPostLiked] = useState(false);
 
-  if (serverResponse.isLoading) {
-    currentStatusJsx = Msg_Loading();
-  }
-  else if (serverResponse.error.error) {
-    currentStatusJsx = Error_showError(serverResponse.error.msg);
-  }
-  else if (!serverResponse.data.result) {
-    currentStatusJsx = Error_showError(serverResponse.data.err);
-  }
-  else {
-    title = serverResponse.data.post.title;
-    previewImg = serverResponse.data.post.preview;
-    author = serverResponse.data.post.author;
-    date = serverResponse.data.post.date;
-    content = (<MarkdownRenderer markdown={serverResponse.data.post.content} options={{html: true}}></MarkdownRenderer>)
-  }
+  // Watch Post
+  useEffect(() => {
+    if (serverResponse.error.error) {
+      currentStatusJsx.current = serverResponse.error.msg;
+    }
+    else if (serverResponse.data) {
+      if (!serverResponse.data.result) {
+        currentStatusJsx.current = serverResponse.data.err;
+      }
+      else {
+        currentStatusJsx.current = '';
+        let postData = {title: '', previewImg: '', author: '', date: '', content: '', likes: 0};
+        postData.title = serverResponse.data.post.title;
+        postData.previewImg = serverResponse.data.post.preview;
+        postData.author = serverResponse.data.post.author;
+        postData.date = serverResponse.data.post.date;
+        postData.likes = serverResponse.data.post.likes;
+        postData.content = (<MarkdownRenderer markdown={serverResponse.data.post.content} options={{html: true}}></MarkdownRenderer>)
+        setPost(postData);
+        if (serverResponse.data.post.userLike == 1) {
+          setPostLiked(true);
+        }
+      }
+    }
+  }, [serverResponse.error, serverResponse.data]);
 
+  useEffect(() => {
+    if (serverResponse2.data && serverResponse2.data.result) {
+      console.log("Likes = " + serverResponse2.data.likes);
+      setPost({ ...post, likes: serverResponse2.data.likes});
+    }
+  }, [serverResponse2.data])
+
+  const handlePostLikePress = () => {
+    setPostLiked(!postLiked);
+    setTarget2({uri: `${serverAddress}/blogPost.php`, data: {type: 'like', blogId: id,
+      user: getCookie('username'), hash: getCookie('hash'), value: !postLiked}});
+  }
 
   return (
     <div className={classes.root}>
       <Typography variant="h2" className={classes.title}>
-        {title}
+        {post.title}
       </Typography>
       {/* Avatar Container */}
       <Container className={classes.avatarContainer}>
-        <Button onClick={ () => history.push("/profile/" + author)}>
-          {author && (<UserAvatar username={author} className={classes.largeIcon}/>)}
+        <Button onClick={ () => history.push("/profile/" + post.author)}>
+          {post.author && (<UserAvatar username={post.author} className={classes.largeIcon}/>)}
           <div>
-            <Typography variant="h6" className={classes.iconText}>{author}</Typography>
-            <Typography variant="h7" className={classes.iconText}>{date}</Typography>
+            <Typography variant="h6" className={classes.iconText}>{post.author}</Typography>
+            <Typography variant="h7" className={classes.iconText}>{post.date}</Typography>
           </div>
         </Button>
         {/* Menu Button */}
         <IconButton ref={menuOptionAnchor} className={classes.optionBtn} onClick={() => { setShowMenuOption(!showMenuOption)}}>
           <MoreVertIcon/>
-          {showOptionBtn(author, menuOptionAnchor.current, showMenuOption, id, setShowDeleteConfirm)}
+          {showOptionBtn(post.author, menuOptionAnchor.current, showMenuOption, id, setShowDeleteConfirm)}
           <DeleteConfirmation open={showDeleteConfirm} setOpen={setShowDeleteConfirm} postId={id}/>
         </IconButton>
       </Container>
       <br/><br/>
       <RenderPost
-        title={title}
-        previewImg={previewImg}
-        postPreview={content}
+        title={post.title}
+        previewImg={post.previewImg}
+        postPreview={post.content}
       />
-        <IconButton aria-label="add to favorites" className={classes.likeButton} >
-          {/* <FavoriteIcon className={classes.likeIcon}/> */}
-          <FavoriteBorderIcon className={classes.likeIcon}/>
-        </IconButton>
-      {currentStatusJsx}
+      <IconButton aria-label="add to favorites" className={classes.likeButton} onClick={handlePostLikePress} >
+        {postLiked && (<FavoriteIcon className={classes.likeIcon}/>)}
+        {!postLiked && (<FavoriteBorderIcon className={classes.likeIcon}/>)}
+        <Typography variant='h5'>{post.likes}</Typography>
+      </IconButton>
+      {currentStatusJsx.current}
     </div>
   );
 }

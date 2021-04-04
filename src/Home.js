@@ -108,7 +108,9 @@ const useStyles = makeStyles({
             height: 350,
         }
     },
-
+  root: {
+    background: '#004792'
+  }
 
    /* social_links: {
 		textAlign: "center",
@@ -127,7 +129,7 @@ const Home = () => {
   const classes = useStyles();
 
 	return (
-        <React.Fragment>
+        <div className={classes.root}>
 
 <div className={classes.row}>
         <div className={classes.col1}>
@@ -145,7 +147,7 @@ const Home = () => {
             <div className="col_box">
 
             <div className={classes.image}>
-                <img src={home_image} className={classes.col2_img}/>
+                <img alt="ximage" src={home_image} className={classes.col2_img}/>
                 </div>
             </div>
         </div>
@@ -160,7 +162,7 @@ const Home = () => {
 				<img className={classes.sociial_icons} src={twitter} alt="O" />
 			</div>
            </footer>*/}
-            </React.Fragment>
+            </div>
 
 
 /*

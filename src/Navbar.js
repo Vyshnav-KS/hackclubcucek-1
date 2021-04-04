@@ -55,11 +55,13 @@ const Navbar = () => {
       <AppBar className={classes.root}>
         <Toolbar>
           <SideDrawer/>
-          <Avatar 
-            className={classes.medium}
-            alt="Hackclub_logo"
-            src={hackclub_logo}
-          />
+          <Button onClick={() => history.push('/')}>
+            <Avatar 
+              className={classes.medium}
+              alt="Hackclub_logo"
+              src={hackclub_logo}
+            />
+          </Button>
           <Typography variant="h6" className={classes.title}>
             HC|Cucek
           </Typography>
