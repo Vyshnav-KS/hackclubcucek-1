@@ -1,113 +1,170 @@
 // Home component
 import { Button, Container, makeStyles, Typography } from "@material-ui/core";
-// import home_image from "./images/devtp.png";
+import React from 'react';
+import home_image from "./images/hm2.png";
+import instagram from "./images/icons/instagram.png";
+import twitter from "./images/icons/twitter.png";
+import github from "./images/icons/github.png";
 
 const useStyles = makeStyles({
-  container:{
-    paddingLeft: "8%",
-    paddingRight: "8%%",
-    maxWidth: "100%",
-    minHeight: "100vh",
+    row:{
+        display:'flex',
+        flexDirection: 'row',
+        width: "100%",
+        height: '100vh',
+        '@media screen and (max-width: 1200px)':{
+            height: '100vh',
+        },
+        '@media screen and (max-width: 750px)':{
+            flexDirection: 'column-reverse',
+            width: 'auto',
+            height: '100%',
+        },
+    },
+    col1:{
+        width: "50%",
+        '@media screen and (max-width: 1200px)':{
+        },
+        '@media screen and (max-width: 750px)':{
+            width: '100%',
+        },
+     },
+     col2:{
+        width: '50%',
+        '@media screen and(max-width: 1200px)':{
+            textAlign: 'center',
+        },
+        '@media screen and (max-width: 750px)':{
+            width: '100%',
+        },
+     },    
+    small:{
+        fontFamily: 'Kanit',
+    },
+	maintitle:{
+        fontSize: 50,
+        paddingLeft: '8%',
+        marginTop: 200,
+        color: 'white',
+        '@media screen and (max-width: 1200px)':{
+            fontSize: 40,
+            marginTop: 170,
+        },
+        '@media screen and (max-width: 750px)':{
+            fontSize: 35,
+            marginTop: 20,
+        },
+    },
+    subtitle:{
+        fontSize: 35,
+        paddingLeft: '8%',
+        marginTop: 25,
+        color: 'rgb(212, 209, 209)',
+        '@media screen and (max-width: 1200px)':{
+            fontSize: 30,
+        },
+        '@media screen and (max-width: 750px)':{
+            fontSize: 22,
+        },
+    },
 
-  },
-  row: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 150,
-  },
-  col_1: {
-    flexBasis: "40%",
-    position: "relative",
-    marginLeft: 50,
-  },
-  main_title: {
-    fontFamily: "Poppins",
-    fontWeight: 700,
-    color: "hsla(0, 4%, 10%, 1)",
-    fontSize: 54,
-  },
-  sub_title:{
-    fontSize: 30,
-    color: "#707070",
-    fontWeight: 100,
-    marginTop: 30,
-    marginBottom: 20 
-  },
-  join_button:{
-    maxWidth: 145,
-    border: 0,
-    borderRadius: "20px 0px 20px 0px",
-    padding: 12,
-    color: "#fff",
-    backgroundColor: "hsla(0, 100%, 50%, 1)",
-    "&:hover":{
-      backgroundColor: "black"
-    }
-  },
-  col_2:{
-    position: "relative",
-    flexBasis: "60%",
-    display: "flex",
-    alignItems: "center",
-  },
-  bg:{
-    maxWidth: "60%",
-    paddingLeft: "10%",
-  },
-  color_box:{
-    position: "absolute",
-    right: 0,
-    top: 0,
-    backgroundColor: "hsla(0, 100%, 50%, 1)",
-    borderRadius: "150px 0px 0px 0px",
-    height: "100%",
-    width: "80%",
-    zIndex: "-1",
-    transform: "translateX(150px)",
+	
+    joinbtn:{
+        width: 120,
+        height: 40,
+        marginLeft: '8%',
+        background: 'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
+        color: 'blue',
+        fontSize: '18',
+        fontFamily: 'Kanit', 
+        border: 0,
+        borderRadius: 50,
+        marginBottom: 20,
+        '&:hover':{
+            background: 'black',
+            color: 'white',
+            textTransform: 'uppercase'
+        },
+    },
+    image:{
+        textAlign: 'center',
+        marginTop: 100,
+        '@media screen and (max-width: 750px)':{
+            marginTop: 10,
+            paddingTop: 20,
+        },
+    },
+    col2_img:{
+        width: 500,
+        height: 500,
+        textAlign: 'center',
+        alignItems: 'center',
+        '@media screen and (max-width: 1200px)':{
+            width: 350,
+            height: 380,
+        },
+        '@media screen and (max-width: 750px)':{
+            width: 300,
+            height: 350,
+        }
+    },
 
-  }
+
+   /* social_links: {
+		textAlign: "center",
+        
+	},
+	sociial_icons: {
+		maxHeight: 30,
+		margin: 20,
+        cursor: "pointer",
+        
+    },*/
+
 });
 
 const Home = () => {
   const classes = useStyles();
 
-  return (
-    <Container className={classes.container}
-    >
-      <div className={classes.row}>
-        <div className={classes.col_1}>
-          <Typography 
-            variant="h2" 
-            className={classes.main_title}>
-            Welcome to
-            <br /> Hack Club Cucek
-          </Typography>
-          <Typography 
-            variant="h3"
-            className={classes.sub_title}
-          >
-            Looking for a tech group accepted worldwide from our college?. You
-            just got into the right place.
-          </Typography>
-          {/*<p>DWJHhjd wdbwabdwha</p>*/}
-          <Button 
-            type="button"
-            variant= "contained"
-            className={classes.join_button}
-          >Join Now</Button>
-        </div>
-        <div className={classes.col_2}>
-          <img src={""} alt="" className={classes.bg}/>
-          <div className={classes.color_box}></div>
-        </div> 
-      </div>
-      {/*<div className="social-links">
-            <img src="" alt="O"/>
-            <img src="" alt="O"/>
-            <img src="" alt="O"/>
-        </div>
+	return (
+        <React.Fragment>
 
+<div className={classes.row}>
+        <div className={classes.col1}>
+            <h1 className={classes.maintitle}>
+               <small>welcome to</small>  <br/> HACK CLUB CUCEK
+            </h1>
+            <p className={classes.subtitle}>
+                Looking for a tech group accepted worldwide from our college?. You just got into the right place.
+            </p>
+            <button className={classes.joinbtn}>
+                Join Now
+            </button>
+        </div>
+        <div className={classes.col2}>
+            <div className="col_box">
+
+            <div className={classes.image}>
+                <img src={home_image} className={classes.col2_img}/>
+                </div>
+            </div>
+        </div>
+    </div>
+			
+		
+           {/* <footer
+            className={classes.footer}>
+            <div className={classes.social_links}>
+				<img className={classes.sociial_icons} src={instagram} alt="O" />
+				<img className={classes.sociial_icons} src={github} alt="O" />
+				<img className={classes.sociial_icons} src={twitter} alt="O" />
+			</div>
+           </footer>*/}
+            </React.Fragment>
+
+
+/*
+            
             <div className="home-about">
                 <h1>Coding is my super power</h1>
                 <h2>What do we do here</h2>
@@ -132,9 +189,8 @@ const Home = () => {
                     <p>Group of student mentors, who are ready to help you.</p>
                     <button>View</button>
                 </div>
-            </div>*/}
-    </Container>
-  );
-}
+            </div>*/
+	);
+};
 
-export default Home
+export default Home;
