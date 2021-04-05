@@ -63,22 +63,35 @@ function generateGridItems(posts, postType) {
   return postsJsx;
 }
 
-const ListPosts = ({postType}) => {
+const ListPosts = ({postType, limit = 10}) => {
   const classes = useStyles();
-  const [target, setTarget] = useState({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: "date", postType: postType}});
+
+  const [target, setTarget] = useState({uri:  `${serverAddress}/blogPost.php`, data: {
+    type: 'list', sortby: "date",
+    postType: postType, from: 0, limit: limit,
+  }});
+
   const [sortBy, setSortBy] = useState("date");
   const [postsJsx, setPostsJsx] = useState([]);
   const [showMenuOption, setShowMenuOption] = useState(false);
   const serverResponse = useFetch(target);
 
   const menuOptionAnchor = useRef(null);
+  const postJsxBackup = useRef([]);
   const currentStatus = useRef("Loading ...");
 
   useEffect(() => {
-    setTarget({uri:  `${serverAddress}/blogPost.php`, data: {type: 'list', sortby: sortBy, postType: postType}});
+    console.log("Callled use effects 11111")
+    postJsxBackup.current = [];
+    setTarget({uri:  `${serverAddress}/blogPost.php`, data: {
+      type: 'list', sortby: sortBy, 
+      postType: postType, 
+      from: 0, limit: limit,
+    }});
   }, [sortBy, postType]);
 
   useEffect(() => {
+    console.log("Callled use effects")
     if (serverResponse.error.error) {
       // Fetch request failed
       currentStatus.current = serverResponse.error.msg;
@@ -87,7 +100,10 @@ const ListPosts = ({postType}) => {
       if (serverResponse.data.result) {
         console.log("got 200")
         currentStatus.current = "";
-        setPostsJsx(generateGridItems(serverResponse.data.posts, postType));
+        console.log("size : " + postJsxBackup.current.length)
+        postJsxBackup.current = postJsxBackup.current.concat(serverResponse.data.posts);
+        setPostsJsx(generateGridItems(postJsxBackup.current, postType));
+        serverResponse.data.posts = [];
       }
       else {
         // Error from server

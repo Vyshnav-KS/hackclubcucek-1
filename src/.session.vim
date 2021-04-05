@@ -8,8 +8,8 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +46 App.js
-badd +53 Navbar.js
-badd +3 Home.js
+badd +65 Navbar.js
+badd +150 Home.js
 badd +8 Join.js
 badd +49 join/Login.js
 badd +88 join/Signup.js
@@ -27,9 +27,9 @@ badd +16 components/UserAvatar.js
 badd +38 components/PostCard.js
 badd +29 navbar/UserIconMenu.js
 badd +116 blog/EditBlogPost.js
-badd +34 blog/DeleteConfirmation.js
+badd +35 blog/DeleteConfirmation.js
 badd +50 ListPosts.js
-badd +0 blog/ViewPost.js
+badd +147 blog/ViewPost.js
 argglobal
 %argdel
 edit blog/ViewPost.js
@@ -42,11 +42,11 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-let s:l = 103 - ((0 * winheight(0) + 22) / 45)
+let s:l = 147 - ((22 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-103
+147
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

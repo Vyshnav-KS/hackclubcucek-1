@@ -23,15 +23,16 @@ const useFetch = (target) => {
           return res.json();
         })
         .then(data => {
+          setError({error: false, msg:""});
           setData(data);
           setLoading(false);
-          setError({error: false, msg:""});
         })
         .catch(err => {
           if (err.name === 'AbortError') {
             console.log("Aborting.....");
             setError({error: true, msg: err.message});
           } else {
+            console.log("err.....");
             setError({error: true, msg: err.message});
             setLoading(false);
           }
