@@ -12,9 +12,13 @@ const useStyles = makeStyles({
         display:'flex',
         flexDirection: 'row',
         width: "100%",
-        height: '100vh',
+        height: 'auto',
+        minHeight: '100vh',
+        top: 0,
+        bottom: 0,
         '@media screen and (max-width: 1200px)':{
-            height: '100vh',
+            height: 'auto',
+            minHeight: '100vh'
         },
         '@media screen and (max-width: 750px)':{
             flexDirection: 'column-reverse',
@@ -71,12 +75,12 @@ const useStyles = makeStyles({
 
 	
     joinbtn:{
-        width: 120,
-        height: 40,
+        width: 130,
+        height: 45,
         marginLeft: '8%',
         background: 'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
         color: 'blue',
-        fontSize: '18',
+        fontSize: 18,
         fontFamily: 'Kanit', 
         border: 0,
         borderRadius: 50,
@@ -89,10 +93,10 @@ const useStyles = makeStyles({
     },
     image:{
         textAlign: 'center',
-        marginTop: 100,
+        marginTop: 200,
         '@media screen and (max-width: 750px)':{
-            marginTop: 10,
-            paddingTop: 20,
+            marginTop: 20,
+            paddingTop: 40,
         },
     },
     col2_img:{

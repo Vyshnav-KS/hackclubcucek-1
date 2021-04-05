@@ -27,6 +27,10 @@ const SideDrawer = () => {
 
   const primaryList = [
     {
+      name: "HOME",
+      path: "/"
+    },
+    {
       name: "BLOGS",
       path: "/blog"
     },
