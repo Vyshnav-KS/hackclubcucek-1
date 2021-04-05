@@ -88,7 +88,7 @@ const Login = () => {
   return (
     <Container className={classes.container}>
       {/* heading */}
-      <Typography variant="h2">
+      <Typography variant="h3">
         Login
       </Typography>
 

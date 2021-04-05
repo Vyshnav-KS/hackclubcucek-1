@@ -6,19 +6,9 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography'
 import UserAvatar from './UserAvatar';
-import { makeStyles } from '@material-ui/core'
 
 
-const useStyles = makeStyles({
-  img: {
-    width: '100%',
-    height: 300
-  }
-})
 const PostCard = ({title, previewImg, author, previewText, date="17-11-2000", likes=0}) => {
-  
-  const classes = useStyles();
-
   return (
     <Card elevation={1}>
       <CardMedia

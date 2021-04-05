@@ -122,10 +122,6 @@ const Signup = () => {
   return (
     <Container className={classes.container}>
       {/* heading */}
-      <Typography variant="h2">
-        Login
-      </Typography>
-
       <Container className={classes.avatarContainer}>
         <Avatar
           className={classes.avatar}

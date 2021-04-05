@@ -5,6 +5,7 @@ import home_image from "./images/hm2.png";
 import instagram from "./images/icons/instagram.png";
 import twitter from "./images/icons/twitter.png";
 import github from "./images/icons/github.png";
+import {useHistory} from "react-router";
 
 const useStyles = makeStyles({
     row:{
@@ -111,62 +112,51 @@ const useStyles = makeStyles({
   root: {
     background: '#004792'
   }
-
-   /* social_links: {
-		textAlign: "center",
-        
-	},
-	sociial_icons: {
-		maxHeight: 30,
-		margin: 20,
-        cursor: "pointer",
-        
-    },*/
-
 });
 
 const Home = () => {
   const classes = useStyles();
+  const history = useHistory();
 
-	return (
-        <div className={classes.root}>
+  return (
+    <div className={classes.root}>
 
-<div className={classes.row}>
+      <div className={classes.row}>
         <div className={classes.col1}>
-            <h1 className={classes.maintitle}>
-               <small>welcome to</small>  <br/> HACK CLUB CUCEK
-            </h1>
-            <p className={classes.subtitle}>
-                Looking for a tech group accepted worldwide from our college?. You just got into the right place.
-            </p>
-            <button className={classes.joinbtn}>
-                Join Now
-            </button>
+          <h1 className={classes.maintitle}>
+            <small>welcome to</small>  <br/> HACK CLUB CUCEK
+          </h1>
+          <p className={classes.subtitle}>
+            Looking for a tech group accepted worldwide from our college?. You just got into the right place.
+          </p>
+          <button className={classes.joinbtn} onClick={() => history.push("/join/signup")}>
+            Join Now
+          </button>
         </div>
         <div className={classes.col2}>
-            <div className="col_box">
+          <div className="col_box">
 
             <div className={classes.image}>
-                <img alt="ximage" src={home_image} className={classes.col2_img}/>
-                </div>
+              <img alt="ximage" src={home_image} className={classes.col2_img}/>
             </div>
+          </div>
         </div>
-    </div>
-			
-		
-           {/* <footer
+      </div>
+
+
+      {/* <footer
             className={classes.footer}>
             <div className={classes.social_links}>
-				<img className={classes.sociial_icons} src={instagram} alt="O" />
-				<img className={classes.sociial_icons} src={github} alt="O" />
-				<img className={classes.sociial_icons} src={twitter} alt="O" />
-			</div>
+        <img className={classes.sociial_icons} src={instagram} alt="O" />
+        <img className={classes.sociial_icons} src={github} alt="O" />
+        <img className={classes.sociial_icons} src={twitter} alt="O" />
+      </div>
            </footer>*/}
-            </div>
+    </div>
 
 
-/*
-            
+    /*
+
             <div className="home-about">
                 <h1>Coding is my super power</h1>
                 <h2>What do we do here</h2>
@@ -192,7 +182,7 @@ const Home = () => {
                     <button>View</button>
                 </div>
             </div>*/
-	);
+  );
 };
 
 export default Home;
