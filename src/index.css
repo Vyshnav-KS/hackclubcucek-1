@@ -4,8 +4,7 @@
     text-decoration: none;
 }
 html{
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: auto;
 }
 body{
     padding: 0;
