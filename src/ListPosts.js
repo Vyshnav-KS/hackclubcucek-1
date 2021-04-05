@@ -63,7 +63,7 @@ function generateGridItems(posts, postType) {
   return postsJsx;
 }
 
-const ListPosts = ({postType, limit = 10}) => {
+const ListPosts = ({postType, limit = 6}) => {
   const classes = useStyles();
 
   const [target, setTarget] = useState({uri:  `${serverAddress}/blogPost.php`, data: {
@@ -80,9 +80,13 @@ const ListPosts = ({postType, limit = 10}) => {
   const postJsxBackup = useRef([]);
   const currentStatus = useRef("Loading ...");
 
+  const postFrom = useRef(0);
+  const reachedBottom = useRef(false);
+  const lockRefresh = useRef(false);
+
   useEffect(() => {
-    console.log("Callled use effects 11111")
     postJsxBackup.current = [];
+    postFrom.current = 0;
     setTarget({uri:  `${serverAddress}/blogPost.php`, data: {
       type: 'list', sortby: sortBy, 
       postType: postType, 
@@ -100,10 +104,11 @@ const ListPosts = ({postType, limit = 10}) => {
       if (serverResponse.data.result) {
         console.log("got 200")
         currentStatus.current = "";
-        console.log("size : " + postJsxBackup.current.length)
         postJsxBackup.current = postJsxBackup.current.concat(serverResponse.data.posts);
         setPostsJsx(generateGridItems(postJsxBackup.current, postType));
+        // To prevent double entry
         serverResponse.data.posts = [];
+        lockRefresh.current = false;
       }
       else {
         // Error from server
@@ -114,9 +119,27 @@ const ListPosts = ({postType, limit = 10}) => {
 
 
   // Scroll event listener
+  // Handle dynamic loading
   window.onscroll = function(ev) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      console.log("At bottom of the page")
+      if (!reachedBottom.current && postJsxBackup.current.length > 1) {
+        reachedBottom.current = true;
+        console.log("At bottom of the page");
+        lockRefresh.current = true;
+        postFrom.current = postFrom.current + limit;
+        console.log("Post from = " +postFrom.current);
+
+        setTarget({uri:  `${serverAddress}/blogPost.php`, data: {
+          type: 'list', sortby: sortBy, 
+          postType: postType, 
+          from: postFrom.current, limit: limit,
+        }});
+      }
+    }
+    else {
+      if (!lockRefresh.current) {
+        reachedBottom.current = false;
+      }
     }
   };
 
