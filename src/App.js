@@ -11,14 +11,21 @@ import ListPosts from './ListPosts';
 import Navbar from './Navbar';
 import Profile from './profile/Profile';
 import UserProfileUpdate from './profile/UserProfileUpdate';
-import UserProfile from './UserProfile';
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  content: {
+    marginTop: 60,
+  }
+});
 
 function App() {
+  const classes = useStyles();
 
   return (
     <Router>
         <Navbar></Navbar>
-        <div className="content">
+        <div className={classes.content}>
           <Switch>
             <Route exact path="/">
               <Home></Home>

@@ -1,5 +1,5 @@
 // Home component
-import { Button, Container, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles} from "@material-ui/core";
 import React from 'react';
 import home_image from "./images/hm2.png";
 import instagram from "./images/icons/instagram.png";
@@ -114,7 +114,7 @@ const useStyles = makeStyles({
         }
     },
   root: {
-    background: '#004792'
+    background: '#004792',
   }
 });
 
