@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     width: 'min-content',
     margin: 'auto',
-    marginTop: 10,
+    marginTop: 15,
     marginBottom: 10
   },
 

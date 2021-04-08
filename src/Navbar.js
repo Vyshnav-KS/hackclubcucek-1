@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'right'
   },
   emptyDiv: {
-    margin: 0,
+    margin: 60,
   }
 }));
 
